@@ -12,9 +12,10 @@ func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Clien
 	config := GetConfig(d)
 
 	if *config.APIKey != "" {
+		doppler.Key = *config.APIKey
 		return &project.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.APIKey,
+			Key:     doppler.Key,
 		}, nil
 	}
 
