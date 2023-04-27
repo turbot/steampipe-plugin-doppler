@@ -1,0 +1,138 @@
+package doppler
+
+import (
+	"context"
+
+	"github.com/nikoksr/doppler-go"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+)
+
+//// TABLE DEFINITION
+
+func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
+	return &plugin.Table{
+		Name:        "doppler_service_token",
+		Description: "Doppler Service Token",
+		List: &plugin.ListConfig{
+			ParentHydrate: listProjects,
+			Hydrate:       listServiceTokens,
+			KeyColumns: plugin.KeyColumnSlice{
+				{
+					Name:    "project",
+					Require: plugin.Optional,
+				},
+				{
+					Name:    "config",
+					Require: plugin.Required,
+				},
+			},
+		},
+		Columns: []*plugin.Column{
+			{
+				Name:        "project",
+				Description: "Unique identifier for the project object.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "config",
+				Description: "The name of the config.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "name",
+				Description: "Name of the service token.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "slug",
+				Description: "A unique identifier of the service token.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "key",
+				Description: "An API key that is used for authentication. Only available when creating the token.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "environment",
+				Description: "Unique identifier for the environment object.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "access",
+				Description: "The access level of the service token. One of read, read/write.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "expires_at",
+				Description: "Date and time of the token's expiration, or null if token does not auto-expire.",
+				Type:        proto.ColumnType_TIMESTAMP,
+			},
+			{
+				Name:        "created_at",
+				Description: "Date and time of the object's creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
+			},
+
+			// Doppler standard column
+			{
+				Name:        "title",
+				Description: "The title of the service token.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Name"),
+			},
+		},
+	}
+}
+
+//// LIST FUNCTION
+
+func listServiceTokens(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	project := h.Item.(*doppler.Project)
+	projectId := d.EqualsQualString("project")
+	configName := d.EqualsQualString("config")
+
+	// Reduce the numbers of API call if the project id is provided in the where clause.
+	if projectId != "" {
+		if projectId != *project.ID {
+			return nil, nil
+		}
+	}
+
+	// Empty check
+	if configName == "" {
+		return nil, nil
+	}
+
+	// Get client
+	client, err := GetServiceTokenClient(ctx, d.Connection)
+	if err != nil {
+		plugin.Logger(ctx).Error("doppler_service_token.listServiceTokens", "client_error", err)
+		return nil, err
+	}
+
+	input := &doppler.ServiceTokenListOptions{
+		Project: *project.ID,
+		Config:  configName,
+	}
+
+	// The SDK does not support pagination till date(04/23).
+	op, _, err := client.List(ctx, input)
+	if err != nil {
+		plugin.Logger(ctx).Error("doppler_service_token.listServiceTokens", "api_error", err)
+		return nil, err
+	}
+
+	for _, item := range op {
+		d.StreamListItem(ctx, item)
+
+		// Context may get cancelled due to manual cancellation or if the limit has been reached.
+		if d.RowsRemaining(ctx) == 0 {
+			return nil, nil
+		}
+	}
+
+	return nil, nil
+}

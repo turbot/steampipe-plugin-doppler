@@ -8,6 +8,7 @@ import (
 	"github.com/nikoksr/doppler-go/environment"
 	"github.com/nikoksr/doppler-go/project"
 	"github.com/nikoksr/doppler-go/secret"
+	servicetoken "github.com/nikoksr/doppler-go/service_token"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
@@ -58,6 +59,19 @@ func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environme
 
 	if *config.APIKey != "" {
 		return &environment.Client{
+			Backend: doppler.GetBackend(),
+			Key:     *config.APIKey,
+		}, nil
+	}
+
+	return nil, nil
+}
+
+func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicetoken.Client, error) {
+	config := GetConfig(d)
+
+	if *config.APIKey != "" {
+		return &servicetoken.Client{
 			Backend: doppler.GetBackend(),
 			Key:     *config.APIKey,
 		}, nil

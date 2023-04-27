@@ -19,10 +19,11 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		// 	ShouldIgnoreError: isNotFoundError,
 		// },
 		TableMap: map[string]*plugin.Table{
-			"doppler_config":      tableDopplerConfig(ctx),
-			"doppler_project":     tableDopplerProject(ctx),
-			"doppler_secret":      tableDopplerSecret(ctx),
-			"doppler_environment": tableDopplerEnvironment(ctx),
+			"doppler_config":        tableDopplerConfig(ctx),
+			"doppler_project":       tableDopplerProject(ctx),
+			"doppler_secret":        tableDopplerSecret(ctx),
+			"doppler_environment":   tableDopplerEnvironment(ctx),
+			"doppler_service_token": tableDopplerServiceToken(ctx),
 		},
 	}
 	return p
