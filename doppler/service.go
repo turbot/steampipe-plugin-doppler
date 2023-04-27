@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/nikoksr/doppler-go"
+	activitylog "github.com/nikoksr/doppler-go/activity_log"
 	"github.com/nikoksr/doppler-go/audit"
 	projectConfig "github.com/nikoksr/doppler-go/config"
 	"github.com/nikoksr/doppler-go/environment"
@@ -113,3 +114,17 @@ func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.C
 
 	return nil, nil
 }
+
+func GetActivityLogClient(ctx context.Context, d *plugin.Connection) (*activitylog.Client, error) {
+	config := GetConfig(d)
+
+	if *config.APIKey != "" {
+		return &activitylog.Client{
+			Backend: doppler.GetBackend(),
+			Key:     *config.APIKey,
+		}, nil
+	}
+
+	return nil, nil
+}
+
