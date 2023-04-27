@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/nikoksr/doppler-go"
+	"github.com/nikoksr/doppler-go/audit"
 	projectConfig "github.com/nikoksr/doppler-go/config"
 	"github.com/nikoksr/doppler-go/environment"
 	"github.com/nikoksr/doppler-go/project"
@@ -72,6 +73,19 @@ func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicet
 
 	if *config.APIKey != "" {
 		return &servicetoken.Client{
+			Backend: doppler.GetBackend(),
+			Key:     *config.APIKey,
+		}, nil
+	}
+
+	return nil, nil
+}
+
+func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, error) {
+	config := GetConfig(d)
+
+	if *config.APIKey != "" {
+		return &audit.Client{
 			Backend: doppler.GetBackend(),
 			Key:     *config.APIKey,
 		}, nil

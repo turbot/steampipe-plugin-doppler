@@ -24,6 +24,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"doppler_secret":        tableDopplerSecret(ctx),
 			"doppler_environment":   tableDopplerEnvironment(ctx),
 			"doppler_service_token": tableDopplerServiceToken(ctx),
+			"doppler_user":          tableDopplerUser(ctx),
 		},
 	}
 	return p
