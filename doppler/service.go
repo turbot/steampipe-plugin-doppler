@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikoksr/doppler-go"
 	projectConfig "github.com/nikoksr/doppler-go/config"
+	"github.com/nikoksr/doppler-go/environment"
 	"github.com/nikoksr/doppler-go/project"
 	"github.com/nikoksr/doppler-go/secret"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -46,6 +47,19 @@ func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client,
 		return &secret.Client{
 			Backend: doppler.GetBackend(),
 			Key:     doppler.Key,
+		}, nil
+	}
+
+	return nil, nil
+}
+
+func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environment.Client, error) {
+	config := GetConfig(d)
+
+	if *config.APIKey != "" {
+		return &environment.Client{
+			Backend: doppler.GetBackend(),
+			Key:     *config.APIKey,
 		}, nil
 	}
 

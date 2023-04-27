@@ -80,6 +80,7 @@ require (
 	github.com/stevenle/topsort v0.0.0-20130922064739-8130c1d7596b // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/turbot/go-kit v0.5.0 // indirect
+	github.com/turbot/steampipe-plugin-sdk v1.8.3 // indirect
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	github.com/zclconf/go-cty v1.12.1 // indirect
 	go.opencensus.io v0.22.4 // indirect
