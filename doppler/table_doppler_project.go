@@ -34,13 +34,13 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 func listProjects(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 
 	// Get client
-	svc, err := GetProjectClient(ctx, d.Connection)
+	client, err := GetProjectClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_project.listProjects", "client_error", err)
 		return nil, err
 	}
 
-	op, _, err := svc.List(ctx, &doppler.ProjectListOptions{})
+	op, _, err := client.List(ctx, &doppler.ProjectListOptions{})
 	if err != nil {
 		return nil, err
 	}
