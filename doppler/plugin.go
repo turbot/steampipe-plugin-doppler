@@ -20,6 +20,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		// },
 		TableMap: map[string]*plugin.Table{
 			"doppler_project": tableDopplerProject(ctx),
+			"doppler_secret":  tableDopplerSecret(ctx),
 		},
 	}
 	return p

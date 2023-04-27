@@ -63,7 +63,7 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-
+	plugin.Logger(ctx).Debug("Project called ----->>>>")
 	// Get client
 	client, err := GetProjectClient(ctx, d.Connection)
 	if err != nil {
@@ -81,7 +81,7 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 
 	for _, item := range op {
-		d.StreamLeafListItem(ctx, item)
+		d.StreamListItem(ctx, item)
 
 		// Context may get cancelled due to manual cancellation or if the limit has been reached.
 		if d.RowsRemaining(ctx) == 0 {
