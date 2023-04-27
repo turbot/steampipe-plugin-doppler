@@ -22,7 +22,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listUsers,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "ID is the unique identifier for the object.",
@@ -70,7 +70,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.Name"),
 			},
-		},
+		}),
 	}
 }
 

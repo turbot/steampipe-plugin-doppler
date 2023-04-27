@@ -18,11 +18,14 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
 			Hydrate:    getProject,
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project"}),
+			},
 		},
 		List: &plugin.ListConfig{
 			Hydrate: listProjects,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "ID is the unique identifier for the object.",
@@ -52,11 +55,11 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The title of the resource.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Name"),
 			},
-		},
+		}),
 	}
 }
 
@@ -106,7 +109,12 @@ func getProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		Name: projectName,
 	}
 
-	op, _, err := client.Get(ctx, input)
+	op, res, err := client.Get(ctx, input)
+	plugin.Logger(ctx).Error("ERROR StatusCode ===>>", res.StatusCode)
+	plugin.Logger(ctx).Error("ERROR Messages ===>>", res.Messages)
+	plugin.Logger(ctx).Error("ERROR Status ===>>", res.Status)
+	plugin.Logger(ctx).Error("ERROR Success ===>>", res.Success)
+	plugin.Logger(ctx).Error("ERROR ===>>", err)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_project.getProject", "api_error", err)
 		return nil, err

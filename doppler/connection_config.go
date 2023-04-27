@@ -27,7 +27,3 @@ func GetConfig(connection *plugin.Connection) dopplerConfig {
 	config, _ := connection.Config.(dopplerConfig)
 	return config
 }
-
-// func connect() (doppler.Client, error) {
-
-// }

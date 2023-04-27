@@ -17,7 +17,10 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 		Description: "Doppler Config",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"project", "name"}),
-			Hydrate:    getConfig,
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project", "Could not find requested config"}),
+			},
+			Hydrate: getConfig,
 		},
 		List: &plugin.ListConfig{
 			ParentHydrate: listProjects,
@@ -29,7 +32,7 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "project",
 				Description: "The ID of the project.",
@@ -74,11 +77,11 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The title of the resource.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Name"),
 			},
-		},
+		}),
 	}
 }
 

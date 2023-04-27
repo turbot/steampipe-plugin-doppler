@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	"strings"
 
 	"github.com/nikoksr/doppler-go"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -15,13 +16,13 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_secret",
 		Description: "Doppler Secret",
-		// Get: &plugin.GetConfig{
-		// 	KeyColumns: plugin.AllColumns([]string{"project_id", "config_name", "secret_name"}),
-		// 	Hydrate:    getSecret,
-		// },
 		List: &plugin.ListConfig{
 			ParentHydrate: listProjects,
 			Hydrate:       listSecrets,
+			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
+			// IgnoreConfig: &plugin.IgnoreConfig{
+			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
+			// },
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "project_id",
@@ -33,7 +34,7 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "project_id",
 				Description: "The ID of the project",
@@ -64,11 +65,11 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The title of the resource.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("SecretKey"),
+				Transform:   transform.FromField("SecretName"),
 			},
-		},
+		}),
 	}
 }
 
@@ -113,7 +114,11 @@ func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 
 	// The SDK does not support pagination till date(04/23).
 	op, _, err := client.List(ctx, input)
+	// In the case of parent hydrate the ignore config is not behaving properly so we need to handle the not found error code here.
 	if err != nil {
+		if strings.Contains(err.Error(), "Could not find requested config") {
+			return nil, nil
+		}
 		plugin.Logger(ctx).Error("doppler_secret.listSecrets", "api_error", err)
 		return nil, err
 	}
@@ -135,42 +140,3 @@ func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 
 	return nil, nil
 }
-
-// //// HYDRATED FUNCTIONs
-
-// func getSecret(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-// 	projectId := d.EqualsQualString("project_id")
-// 	configName := d.EqualsQualString("config_name")
-// 	secretName := d.EqualsQualString("secret_name")
-
-// 	// Get client
-// 	client, err := GetSecretClient(ctx, d.Connection)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_secret.getSecret", "client_error", err)
-// 		return nil, err
-// 	}
-
-// 	input := &doppler.SecretGetOptions{
-// 		Project: projectId,
-// 		Config:  configName,
-// 		Name:    secretName,
-// 	}
-
-// 	op, _, err := client.Get(ctx, input)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_secret.getSecret", "api_error", err)
-// 		return nil, err
-// 	}
-// 	plugin.Logger(ctx).Error("OUTPUT ===>>>", op)
-// 	if op != nil {
-// 		return &SecretInfo{
-// 			ProjectID:           projectId,
-// 			ConfigName:          configName,
-// 			SecretName:          *op.Name,
-// 			SecretValueRaw:      *op.Value.Raw,
-// 			SecretValueComputed: *op.Value.Computed,
-// 		}, nil
-// 	}
-
-// 	return nil, nil
-// }

@@ -10,9 +10,11 @@ import (
 	"github.com/nikoksr/doppler-go/project"
 	"github.com/nikoksr/doppler-go/secret"
 	servicetoken "github.com/nikoksr/doppler-go/service_token"
+	"github.com/nikoksr/doppler-go/workplace"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
+// Project Client
 func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Client, error) {
 	config := GetConfig(d)
 
@@ -27,6 +29,7 @@ func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Clien
 	return nil, nil
 }
 
+// Config Client
 func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.Client, error) {
 	config := GetConfig(d)
 
@@ -41,6 +44,7 @@ func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.
 	return nil, nil
 }
 
+// Secret Client
 func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client, error) {
 	config := GetConfig(d)
 
@@ -55,6 +59,7 @@ func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client,
 	return nil, nil
 }
 
+// Environment Client
 func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environment.Client, error) {
 	config := GetConfig(d)
 
@@ -68,6 +73,7 @@ func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environme
 	return nil, nil
 }
 
+// Service Token Client
 func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicetoken.Client, error) {
 	config := GetConfig(d)
 
@@ -81,11 +87,25 @@ func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicet
 	return nil, nil
 }
 
+// User Client
 func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, error) {
 	config := GetConfig(d)
 
 	if *config.APIKey != "" {
 		return &audit.Client{
+			Backend: doppler.GetBackend(),
+			Key:     *config.APIKey,
+		}, nil
+	}
+	return nil, nil
+}
+
+// Workplace Client
+func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.Client, error) {
+	config := GetConfig(d)
+
+	if *config.APIKey != "" {
+		return &workplace.Client{
 			Backend: doppler.GetBackend(),
 			Key:     *config.APIKey,
 		}, nil

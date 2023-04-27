@@ -17,7 +17,10 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 		Description: "Doppler Environment",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"project", "slug"}),
-			Hydrate:    getEnvironment,
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested environment", "Could not find requested project"}),
+			},
+			Hydrate: getEnvironment,
 		},
 		List: &plugin.ListConfig{
 			ParentHydrate: listProjects,
@@ -29,7 +32,7 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -65,11 +68,11 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The title of the resource.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Name"),
 			},
-		},
+		}),
 	}
 }
 

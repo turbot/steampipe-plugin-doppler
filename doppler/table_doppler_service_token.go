@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	"strings"
 
 	"github.com/nikoksr/doppler-go"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -18,6 +19,10 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			ParentHydrate: listProjects,
 			Hydrate:       listServiceTokens,
+			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
+			// IgnoreConfig: &plugin.IgnoreConfig{
+			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
+			// },
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "project",
@@ -29,7 +34,7 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "project",
 				Description: "Unique identifier for the project object.",
@@ -79,11 +84,11 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The title of the service token.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Name"),
 			},
-		},
+		}),
 	}
 }
 
@@ -121,6 +126,9 @@ func listServiceTokens(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 	// The SDK does not support pagination till date(04/23).
 	op, _, err := client.List(ctx, input)
 	if err != nil {
+		if strings.Contains(err.Error(), "Could not find requested config") {
+			return nil, nil
+		}
 		plugin.Logger(ctx).Error("doppler_service_token.listServiceTokens", "api_error", err)
 		return nil, err
 	}
