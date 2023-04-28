@@ -17,7 +17,7 @@ import (
 
 // Project Client
 func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		doppler.Key = *config.DOPPLER_TOKEN
@@ -32,7 +32,7 @@ func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Clien
 
 // Config Client
 func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		doppler.Key = *config.DOPPLER_TOKEN
@@ -47,7 +47,7 @@ func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.
 
 // Secret Client
 func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		doppler.Key = *config.DOPPLER_TOKEN
@@ -62,7 +62,7 @@ func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client,
 
 // Environment Client
 func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environment.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		return &environment.Client{
@@ -76,7 +76,7 @@ func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environme
 
 // Service Token Client
 func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicetoken.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		return &servicetoken.Client{
@@ -90,7 +90,7 @@ func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicet
 
 // User Client
 func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		return &audit.Client{
@@ -103,7 +103,7 @@ func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, er
 
 // Workplace Client
 func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		return &workplace.Client{
@@ -116,7 +116,7 @@ func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.C
 }
 
 func GetActivityLogClient(ctx context.Context, d *plugin.Connection) (*activitylog.Client, error) {
-	config := GetConfig(d)
+	config := GetConfigWithToken(d)
 
 	if *config.DOPPLER_TOKEN != "" {
 		return &activitylog.Client{
