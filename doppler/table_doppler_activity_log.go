@@ -22,7 +22,7 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listActivityLogs,
 		},
-		Columns: []*plugin.Column{
+		Columns: commonColumnsForAllResource([]*plugin.Column{
 
 			{
 				Name:        "id",
@@ -83,11 +83,11 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The user's name.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.Name"),
 			},
-		},
+		}),
 	}
 }
 

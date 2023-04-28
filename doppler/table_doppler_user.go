@@ -66,7 +66,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 			// Doppler standard column
 			{
 				Name:        "title",
-				Description: "The user's name.",
+				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.Name"),
 			},
@@ -105,9 +105,16 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	return nil, nil
 }
 
+//// HYDRATED FUNCTIONS
+
 func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 
 	id := d.EqualsQualString("id")
+
+	// Empty check
+	if id == "" {
+		return nil, nil
+	}
 
 	// Get client
 	client, err := GetUserClient(ctx, d.Connection)

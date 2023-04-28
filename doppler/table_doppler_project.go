@@ -94,6 +94,8 @@ func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	return nil, nil
 }
 
+//// HYDRATED FUNCTIONS
+
 func getProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 
 	projectName := d.EqualsQualString("name")

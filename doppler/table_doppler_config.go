@@ -128,11 +128,16 @@ func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 	return nil, nil
 }
 
-//// HYDRATED FUNCTIONs
+//// HYDRATED FUNCTIONS
 
 func getConfig(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("name")
+
+	// Empty Check
+	if projectId == "" || configName == "" {
+		return nil, nil
+	}
 
 	// Get client
 	client, err := GetConfigClient(ctx, d.Connection)

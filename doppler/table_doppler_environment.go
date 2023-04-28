@@ -116,9 +116,16 @@ func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 	return nil, nil
 }
 
+//// HYDRATED FUNCTIONS
+
 func getEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	projectId := d.EqualsQualString("project")
-	slugId := d.EqualsQualString("slug")
+	slug := d.EqualsQualString("slug")
+
+	// Empty Check
+	if projectId == "" || slug == "" {
+		return nil, nil
+	}
 
 	// Get client
 	client, err := GetEnvironmentClient(ctx, d.Connection)
@@ -129,7 +136,7 @@ func getEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	input := &doppler.EnvironmentGetOptions{
 		Project: projectId,
-		Slug:    slugId,
+		Slug:    slug,
 	}
 
 	op, _, err := client.Get(ctx, input)
