@@ -54,7 +54,7 @@ steampipe plugin install doppler
 
 ### Credentials
 
-| Item        | Description                                                                                                                                                                                                                                                                                                      |
+| Item        | Description                                                                                                                                                                 |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Credentials | Doppler requires an [Access Token](https://docs.doppler.com/reference/auth-token-formats)                                                                                   |
 | Permissions | The permission scope of access tokens is limited to the projects or environments based on token type.                                                                       |

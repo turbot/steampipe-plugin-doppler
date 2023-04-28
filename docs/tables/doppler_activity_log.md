@@ -1,6 +1,7 @@
-# Table: doppler_user
+# Table: doppler_activity_log
 
-Doppler user.
+From adding team members, to modifying secrets - Doppler will generate logs for every action your team makes.
+Activity Log table helps you to query the activity logs.
 
 ## Examples
 
@@ -13,7 +14,7 @@ select
   created_at,
   user_name,
   user_email,
-  workplace_name 
+  workplace_name
 from
   doppler_activity_log;
 ```
@@ -27,9 +28,9 @@ select
   created_at,
   user_name,
   user_email,
-  workplace_name 
+  workplace_name
 from
-  doppler_activity_log 
+  doppler_activity_log
 where
   created_at > now() - interval '30 day';
 ```
@@ -42,9 +43,9 @@ select
   text,
   created_at,
   user_name,
-  workplace_name 
+  workplace_name
 from
-  doppler_activity_log 
+  doppler_activity_log
 where
   user_name like '%Bot%';
 ```

@@ -2,6 +2,8 @@
 
 Secrets in Doppler work very similarly to how they would on any other platform, with a few exceptions. The secrets engine has a couple of built-in perks!
 
+- You **_must_** specify `config_name` in a `where` clause in order to use this table.
+
 ## Example
 
 ### Basic info
