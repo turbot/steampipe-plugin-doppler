@@ -17,7 +17,7 @@ from
   doppler_project;
 ```
 
-### list projects created between two specific dates
+### List projects created between two specific dates
 
 ```sql
 select
