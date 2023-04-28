@@ -14,7 +14,7 @@ import (
 func tableDopplerProject(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_project",
-		Description: "Doppler Project",
+		Description: "A Doppler project defines app config and secrets for one service or app.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
 			Hydrate:    getProject,

@@ -15,7 +15,6 @@ import (
 func tableDopplerSecret(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_secret",
-		Description: "Doppler Secret",
 		List: &plugin.ListConfig{
 			ParentHydrate: listProjects,
 			Hydrate:       listSecrets,
@@ -25,7 +24,7 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 			// },
 			KeyColumns: plugin.KeyColumnSlice{
 				{
-					Name:    "project_id",
+					Name:    "project",
 					Require: plugin.Optional,
 				},
 				{
@@ -36,7 +35,7 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
-				Name:        "project_id",
+				Name:        "project",
 				Description: "The ID of the project",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("ProjectID"),
@@ -85,7 +84,7 @@ type SecretInfo struct {
 
 func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	project := h.Item.(*doppler.Project)
-	projectId := d.EqualsQualString("project_id")
+	projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("config_name")
 
 	// Reduce the numbers of API call if the project id is provided in the where clause.
