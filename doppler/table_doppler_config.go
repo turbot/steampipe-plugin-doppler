@@ -14,7 +14,7 @@ import (
 func tableDopplerConfig(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_config",
-		Description: "Doppler Config",
+		Description: "Doppler config refer to the configuration files that define the settings, parameters, and environment variables used by your application or service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"project", "name"}),
 			IgnoreConfig: &plugin.IgnoreConfig{

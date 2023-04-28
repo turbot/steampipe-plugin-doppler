@@ -29,7 +29,6 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Description: "ID is the unique identifier for the activity log.",
 				Type:        proto.ColumnType_STRING,
 			},
-
 			{
 				Name:        "text",
 				Description: "Text describing the event.",
