@@ -41,13 +41,18 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("User.Name"),
 			},
 			{
+				Name:        "html",
+				Description: "HTML describing the event.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
 				Name:        "user_email",
 				Description: "The user's email address.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.Email"),
 			},
 			{
-				Name:        "user_username", // TODO Discuss about the naming convention
+				Name:        "user_username",
 				Description: "The user's username.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.UserName"),

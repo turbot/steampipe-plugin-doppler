@@ -1,6 +1,6 @@
 # Table: doppler_environment
 
-By default, each project has three default environments for defining configuration at the root level: Development, Staging, and Production. Configs are responsible for vaulting and managing app config and secrets such as API keys, database urls, certs, etc.
+By default, each project has three default environments for defining configuration at the root level: Development, Staging, and Production.
 
 ## Examples
 

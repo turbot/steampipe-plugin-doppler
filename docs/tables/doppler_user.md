@@ -1,6 +1,6 @@
 # Table: doppler_user
 
-Doppler user.
+Represents a user who has accepted membership in a project.
 
 ## Examples
 
@@ -14,7 +14,7 @@ select
   username,
   created_at,
   access,
-  workplace_name 
+  workplace_name
 from
   doppler_user;
 ```
@@ -29,9 +29,9 @@ select
   username,
   created_at,
   access,
-  workplace_name 
+  workplace_name
 from
-  doppler_user 
+  doppler_user
 where
   created_at > now() - interval '30 day';
 ```
@@ -46,9 +46,9 @@ select
   username,
   created_at,
   access,
-  workplace_name 
+  workplace_name
 from
-  doppler_user 
+  doppler_user
 where
   access = 'owner';
 ```
