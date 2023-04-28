@@ -78,7 +78,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 
 func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Get client
-	client, err := GetUserClient(ctx, d.Connection)
+	client, _, err := GetUserClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_user.listUsers", "client_error", err)
 		return nil, err
@@ -117,7 +117,7 @@ func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (i
 	}
 
 	// Get client
-	client, err := GetUserClient(ctx, d.Connection)
+	client, _, err := GetUserClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_user.getProject", "client_error", err)
 		return nil, err

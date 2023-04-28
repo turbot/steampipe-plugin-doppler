@@ -74,3 +74,45 @@ func getWorkplaceDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	return response, nil
 }
+
+// Get the project details
+func getProjectData(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+
+	var projectData *doppler.Project
+
+	project, err := getProjectDetails(ctx, d, h)
+	if err != nil {
+		plugin.Logger(ctx).Error("getCommonColumns", "status", "failed", "connection_name", d.Connection.Name, "error", err)
+		return nil, err
+	}
+
+	projectData = project.(*doppler.Project)
+	plugin.Logger(ctx).Error("Project name", *projectData.ID)
+
+	return projectData, nil
+
+}
+
+var getProjectDetails = plugin.HydrateFunc(getProjectDataUncached).Memoize()
+
+func getProjectDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	// get Connection config
+	config := GetConfigWithToken(d.Connection)
+
+	// Create Client
+	client, err := GetProjectClient(ctx, d.Connection)
+	if err != nil {
+		plugin.Logger(ctx).Error("getProjectDataUncached", "status", "failed", "connection_name", d.Connection.Name, "client_error", err)
+		return nil, err
+	}
+
+	response, _, err := client.Get(ctx, &doppler.ProjectGetOptions{
+		Name: *config.PROJECT_ID,
+	})
+	if err != nil {
+		plugin.Logger(ctx).Error("getProjectDataUncached", "status", "failed", "connection_name", d.Connection.Name, "api_error", err)
+		return nil, err
+	}
+
+	return response, nil
+}

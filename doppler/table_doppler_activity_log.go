@@ -86,7 +86,7 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 
 func listActivityLogs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	// Get client
-	client, err := GetActivityLogClient(ctx, d.Connection)
+	client, _, err := GetActivityLogClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_activity_log.listActivityLogs", "client_error", err)
 		return nil, err
@@ -118,7 +118,7 @@ func getActivityLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	id := d.EqualsQualString("id")
 
 	// Get client
-	client, err := GetActivityLogClient(ctx, d.Connection)
+	client, _, err := GetActivityLogClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_user.getActivityLog", "client_error", err)
 		return nil, err

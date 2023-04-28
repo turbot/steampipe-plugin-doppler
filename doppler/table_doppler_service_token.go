@@ -17,17 +17,18 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 		Name:        "doppler_service_token",
 		Description: "Doppler Service Token",
 		List: &plugin.ListConfig{
-			ParentHydrate: listProjects,
+			// ParentHydrate: listProjects,
+			ParentHydrate: listConfigs,
 			Hydrate:       listServiceTokens,
 			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
 			// IgnoreConfig: &plugin.IgnoreConfig{
 			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
 			// },
 			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "project",
-					Require: plugin.Optional,
-				},
+				// {
+				// 	Name:    "project",
+				// 	Require: plugin.Optional,
+				// },
 				{
 					Name:    "config",
 					Require: plugin.Required,
@@ -95,13 +96,13 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listServiceTokens(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	project := h.Item.(*doppler.Project)
-	projectId := d.EqualsQualString("project")
+	config := h.Item.(*doppler.Config)
+	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("config")
 
 	// Reduce the numbers of API call if the project id is provided in the where clause.
-	if projectId != "" {
-		if projectId != *project.ID {
+	if configName != "" {
+		if configName != *config.Name {
 			return nil, nil
 		}
 	}
@@ -112,15 +113,15 @@ func listServiceTokens(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 	}
 
 	// Get client
-	client, err := GetServiceTokenClient(ctx, d.Connection)
+	client, projectId, err := GetServiceTokenClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_service_token.listServiceTokens", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.ServiceTokenListOptions{
-		Project: *project.ID,
-		Config:  configName,
+		Project: *projectId,
+		Config:  *config.Name,
 	}
 
 	// The SDK does not support pagination till date(04/23).

@@ -14,22 +14,23 @@ import (
 
 func tableDopplerSecret(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "doppler_secret",
+		Name: "doppler_secret",
 		List: &plugin.ListConfig{
-			ParentHydrate: listProjects,
+			// ParentHydrate: listProjects,
+			ParentHydrate: listConfigs,
 			Hydrate:       listSecrets,
 			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
 			// IgnoreConfig: &plugin.IgnoreConfig{
 			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
 			// },
 			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "project",
-					Require: plugin.Optional,
-				},
+				// {
+				// 	Name:    "project",
+				// 	Require: plugin.Optional,
+				// },
 				{
 					Name:    "config_name",
-					Require: plugin.Required,
+					Require: plugin.Optional,
 				},
 			},
 		},
@@ -83,32 +84,27 @@ type SecretInfo struct {
 //// LIST FUNCTION
 
 func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	project := h.Item.(*doppler.Project)
-	projectId := d.EqualsQualString("project")
+	config := h.Item.(*doppler.Config)
+	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("config_name")
 
 	// Reduce the numbers of API call if the project id is provided in the where clause.
-	if projectId != "" {
-		if projectId != *project.ID {
+	if configName != "" {
+		if configName != *config.Name {
 			return nil, nil
 		}
 	}
 
-	// Empty check
-	if configName == "" {
-		return nil, nil
-	}
-
 	// Get client
-	client, err := GetSecretClient(ctx, d.Connection)
+	client, projectId, err := GetSecretClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_secret.listSecrets", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.SecretListOptions{
-		Project: *project.ID,
-		Config:  configName,
+		Project: *projectId,
+		Config:  *config.Name,
 	}
 
 	// The SDK does not support pagination till date(04/23).
@@ -124,8 +120,8 @@ func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 
 	for k, v := range op {
 		d.StreamListItem(ctx, &SecretInfo{
-			ProjectID:           *project.ID,
-			ConfigName:          configName,
+			ProjectID:           *projectId,
+			ConfigName:          *config.Name,
 			SecretName:          k,
 			SecretValueRaw:      *v.Raw,
 			SecretValueComputed: *v.Computed,

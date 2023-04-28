@@ -3,7 +3,6 @@ package doppler
 import (
 	"context"
 
-	"github.com/nikoksr/doppler-go"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,15 +14,15 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_project",
 		Description: "A Doppler project defines app config and secrets for one service or app.",
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    getProject,
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project"}),
-			},
-		},
+		// Get: &plugin.GetConfig{
+		// 	// KeyColumns: plugin.SingleColumn("name"),
+		// 	Hydrate:    getProjectData,
+		// 	IgnoreConfig: &plugin.IgnoreConfig{
+		// 		ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project"}),
+		// 	},
+		// },
 		List: &plugin.ListConfig{
-			Hydrate: listProjects,
+			Hydrate: getProject,
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
@@ -63,64 +62,69 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 	}
 }
 
-//// LIST FUNCTION
+// //// LIST FUNCTION
 
-func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	// Get client
-	client, err := GetProjectClient(ctx, d.Connection)
+func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	project, err := getProjectData(ctx, d, h)
 	if err != nil {
-		plugin.Logger(ctx).Error("doppler_project.listProjects", "client_error", err)
 		return nil, err
 	}
-
-	input := &doppler.ProjectListOptions{}
-
-	// The SDK does not support pagination till date(04/23).
-	op, _, err := client.List(ctx, input)
-	if err != nil {
-		plugin.Logger(ctx).Error("doppler_project.listProjects", "api_error", err)
-		return nil, err
-	}
-
-	for _, item := range op {
-		d.StreamListItem(ctx, item)
-
-		// Context may get cancelled due to manual cancellation or if the limit has been reached.
-		if d.RowsRemaining(ctx) == 0 {
-			return nil, nil
-		}
-	}
+	d.StreamListItem(ctx, project)
 
 	return nil, nil
 }
 
-//// HYDRATED FUNCTIONS
+// func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+// 	// Get client
+// 	client, err := GetProjectClient(ctx, d.Connection)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("doppler_project.listProjects", "client_error", err)
+// 		return nil, err
+// 	}
 
-func getProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+// 	input := &doppler.ProjectListOptions{}
 
-	projectName := d.EqualsQualString("name")
+// 	// The SDK does not support pagination till date(04/23).
+// 	op, _, err := client.List(ctx, input)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("doppler_project.listProjects", "api_error", err)
+// 		return nil, err
+// 	}
 
-	// Get client
-	client, err := GetProjectClient(ctx, d.Connection)
-	if err != nil {
-		plugin.Logger(ctx).Error("doppler_project.getProject", "client_error", err)
-		return nil, err
-	}
+// 	for _, item := range op {
+// 		d.StreamListItem(ctx, item)
 
-	input := &doppler.ProjectGetOptions{
-		Name: projectName,
-	}
+// 		// Context may get cancelled due to manual cancellation or if the limit has been reached.
+// 		if d.RowsRemaining(ctx) == 0 {
+// 			return nil, nil
+// 		}
+// 	}
 
-	op, res, err := client.Get(ctx, input)
-	plugin.Logger(ctx).Error("ERROR StatusCode ===>>", res.StatusCode)
-	plugin.Logger(ctx).Error("ERROR Messages ===>>", res.Messages)
-	plugin.Logger(ctx).Error("ERROR Status ===>>", res.Status)
-	plugin.Logger(ctx).Error("ERROR Success ===>>", res.Success)
-	plugin.Logger(ctx).Error("ERROR ===>>", err)
-	if err != nil {
-		plugin.Logger(ctx).Error("doppler_project.getProject", "api_error", err)
-		return nil, err
-	}
+// 	return nil, nil
+// }
 
-	return op, nil
-}
+// //// HYDRATED FUNCTIONS
+
+// func getProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+
+// 	projectName := d.EqualsQualString("name")
+
+// 	// Get client
+// 	client, err := GetProjectClient(ctx, d.Connection)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("doppler_project.getProject", "client_error", err)
+// 		return nil, err
+// 	}
+
+// 	input := &doppler.ProjectGetOptions{
+// 		Name: projectName,
+// 	}
+
+// 	op, _, err := client.Get(ctx, input)
+// 	if err != nil {
+// 		plugin.Logger(ctx).Error("doppler_project.getProject", "api_error", err)
+// 		return nil, err
+// 	}
+
+// 	return op, nil
+// }

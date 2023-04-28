@@ -23,7 +23,7 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 			Hydrate: getEnvironment,
 		},
 		List: &plugin.ListConfig{
-			ParentHydrate: listProjects,
+			// ParentHydrate: listProjects,
 			Hydrate:       listEnvironments,
 			KeyColumns: []*plugin.KeyColumn{
 				{
@@ -79,23 +79,23 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	project := h.Item.(*doppler.Project)
-	projectId := d.EqualsQualString("project")
+	// project := h.Item.(*doppler.Project)
+	// projectId := d.EqualsQualString("project")
 
-	// Reduce the numbers of API call if the project id is provided in the where clause.
-	if projectId != "" && projectId != *project.ID {
-		return nil, nil
-	}
+	// // Reduce the numbers of API call if the project id is provided in the where clause.
+	// if projectId != "" && projectId != *project.ID {
+	// 	return nil, nil
+	// }
 
 	// Get client
-	client, err := GetEnvironmentClient(ctx, d.Connection)
+	client, projectId, err := GetEnvironmentClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_environment.listEnvironments", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.EnvironmentListOptions{
-		Project: *project.ID,
+		Project: *projectId,
 	}
 
 	// The SDK does not support pagination till date(04/23).
@@ -119,23 +119,23 @@ func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 //// HYDRATED FUNCTIONS
 
 func getEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	projectId := d.EqualsQualString("project")
+	// projectId := d.EqualsQualString("project")
 	slug := d.EqualsQualString("slug")
 
-	// Empty Check
-	if projectId == "" || slug == "" {
-		return nil, nil
-	}
+	// // Empty Check
+	// if projectId == "" || slug == "" {
+	// 	return nil, nil
+	// }
 
 	// Get client
-	client, err := GetEnvironmentClient(ctx, d.Connection)
+	client, projectId, err := GetEnvironmentClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_environment.getEnvironment", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.EnvironmentGetOptions{
-		Project: projectId,
+		Project: *projectId,
 		Slug:    slug,
 	}
 

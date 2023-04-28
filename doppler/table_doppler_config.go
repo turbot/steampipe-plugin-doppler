@@ -23,8 +23,8 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 			Hydrate: getConfig,
 		},
 		List: &plugin.ListConfig{
-			ParentHydrate: listProjects,
-			Hydrate:       listConfigs,
+			// ParentHydrate: listProjects,
+			Hydrate: listConfigs,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "project",
@@ -88,25 +88,25 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	project := h.Item.(*doppler.Project)
-	projectId := d.EqualsQualString("project")
+	// project := h.Item.(*doppler.Project)
+	// projectId := d.EqualsQualString("project")
 
 	// Reduce the numbers of API call if the project id is provided in the where clause.
-	if projectId != "" {
-		if projectId != *project.ID {
-			return nil, nil
-		}
-	}
+	// if projectId != "" {
+	// 	if projectId != *project.ID {
+	// 		return nil, nil
+	// 	}
+	// }
 
 	// Get client
-	client, err := GetConfigClient(ctx, d.Connection)
+	client, projectId, err := GetConfigClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_config.listConfigs", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.ConfigListOptions{
-		Project: *project.ID,
+		Project: *projectId,
 	}
 
 	// The SDK does not support pagination till date(04/23).
@@ -131,23 +131,23 @@ func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 //// HYDRATED FUNCTIONS
 
 func getConfig(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	projectId := d.EqualsQualString("project")
+	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("name")
 
-	// Empty Check
-	if projectId == "" || configName == "" {
-		return nil, nil
-	}
+	// // Empty Check
+	// if projectId == "" || configName == "" {
+	// 	return nil, nil
+	// }
 
 	// Get client
-	client, err := GetConfigClient(ctx, d.Connection)
+	client, projectId, err := GetConfigClient(ctx, d.Connection)
 	if err != nil {
 		plugin.Logger(ctx).Error("doppler_config.getConfig", "client_error", err)
 		return nil, err
 	}
 
 	input := &doppler.ConfigGetOptions{
-		Project: projectId,
+		Project: *projectId,
 		Config:  configName,
 	}
 

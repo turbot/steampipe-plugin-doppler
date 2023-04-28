@@ -1,6 +1,7 @@
 package doppler
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -9,10 +10,14 @@ import (
 
 type dopplerConfig struct {
 	DOPPLER_TOKEN *string `cty:"doppler_token"`
+	PROJECT_ID    *string `cty:"project_id"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
 	"doppler_token": {
+		Type: schema.TypeString,
+	},
+	"project_id": {
 		Type: schema.TypeString,
 	},
 }
@@ -35,10 +40,17 @@ func GetConfig(connection *plugin.Connection) dopplerConfig {
 func GetConfigWithToken(connection *plugin.Connection) dopplerConfig {
 	config := GetConfig(connection)
 	dopplerToken := os.Getenv("DOPPLER_TOKEN")
+	dopplerProjectId := os.Getenv("DOPPLER_PROJECT_ID")
 	if config.DOPPLER_TOKEN == nil && dopplerToken == "" {
-		return dopplerConfig{}
+		errorMessage := fmt.Sprintf("Connection %s config does not have token, or does not have a valid token set in environment variable DOPPLER_TOKEN, please add the the token and restart the seampipe.", connection.Name)
+		panic(errorMessage)
 	} else if config.DOPPLER_TOKEN == nil && dopplerToken != "" {
 		config.DOPPLER_TOKEN = &dopplerToken
+	} else if config.PROJECT_ID == nil && dopplerProjectId == "" {
+		errorMessage := fmt.Sprintf("Connection %s config does not have priject ID, or does not have a valid project ID set in environment variable DOPPLER_PROJECT_ID, please add the the project ID and restart the seampipe.", connection.Name)
+		panic(errorMessage)
+	} else if config.PROJECT_ID == nil && dopplerProjectId != "" {
+		config.PROJECT_ID = &dopplerProjectId
 	}
 
 	return config
