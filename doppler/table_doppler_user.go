@@ -35,16 +35,20 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("User.Name"),
 			},
 			{
+				Name:        "access",
+				Description: "The description of the project.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "created_at",
+				Description: "The time when the project was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
+			},
+			{
 				Name:        "email",
 				Description: "The user's email address.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.Email"),
-			},
-			{
-				Name:        "username",
-				Description: "The user's username.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("User.UserName"),
 			},
 			{
 				Name:        "profile_image_url",
@@ -53,14 +57,10 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("User.ProfileImageURL"),
 			},
 			{
-				Name:        "created_at",
-				Description: "The time when the project was created.",
-				Type:        proto.ColumnType_TIMESTAMP,
-			},
-			{
-				Name:        "access",
-				Description: "The description of the project.",
+				Name:        "username",
+				Description: "The user's username.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("User.UserName"),
 			},
 
 			// Doppler standard column

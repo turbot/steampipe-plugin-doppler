@@ -36,16 +36,6 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
-				Name:        "project",
-				Description: "Unique identifier for the project object.",
-				Type:        proto.ColumnType_STRING,
-			},
-			{
-				Name:        "config",
-				Description: "The name of the config.",
-				Type:        proto.ColumnType_STRING,
-			},
-			{
 				Name:        "name",
 				Description: "Name of the service token.",
 				Type:        proto.ColumnType_STRING,
@@ -56,8 +46,18 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
-				Name:        "key",
-				Description: "An API key that is used for authentication. Only available when creating the token.",
+				Name:        "access",
+				Description: "The access level of the service token. One of read, read/write.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "created_at",
+				Description: "Date and time of the object's creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
+			},
+			{
+				Name:        "config",
+				Description: "The name of the config.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -66,19 +66,19 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
-				Name:        "access",
-				Description: "The access level of the service token. One of read, read/write.",
-				Type:        proto.ColumnType_STRING,
-			},
-			{
 				Name:        "expires_at",
 				Description: "Date and time of the token's expiration, or null if token does not auto-expire.",
 				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
-				Name:        "created_at",
-				Description: "Date and time of the object's creation.",
-				Type:        proto.ColumnType_TIMESTAMP,
+				Name:        "key",
+				Description: "An API key that is used for authentication. Only available when creating the token.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "project",
+				Description: "Unique identifier for the project object.",
+				Type:        proto.ColumnType_STRING,
 			},
 
 			// Doppler standard column

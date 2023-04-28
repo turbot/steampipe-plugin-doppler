@@ -12,8 +12,8 @@ import (
 const (
 	// Constants for Standard Column Descriptions
 	ColumnDescriptionWorkplaceName = "Title of the resource."
-	ColumnDescriptionWorkplaceId   = "The OCID of the Tenant in which the resource is located."
-	ColumnDescriptionTitle         = "The OCID of the Tenant in which the resource is located."
+	ColumnDescriptionWorkplaceId   = "The ID of the workplace."
+	ColumnDescriptionTitle         = "The name of the workplace."
 )
 
 func commonColumnsForAllResource(columns []*plugin.Column) []*plugin.Column {

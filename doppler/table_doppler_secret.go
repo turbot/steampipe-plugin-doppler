@@ -35,10 +35,9 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
-				Name:        "project",
-				Description: "The ID of the project",
+				Name:        "secret_name",
+				Description: "The secrect name.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ProjectID"),
 			},
 			{
 				Name:        "config_name",
@@ -46,9 +45,10 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
-				Name:        "secret_name",
-				Description: "The secrect name.",
+				Name:        "project",
+				Description: "The ID of the project",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("ProjectID"),
 			},
 			{
 				Name:        "secret_value_raw",

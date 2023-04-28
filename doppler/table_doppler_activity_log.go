@@ -41,34 +41,6 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("User.Name"),
 			},
 			{
-				Name:        "user_email",
-				Description: "The user's email address.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("User.Email"),
-			},
-			{
-				Name:        "user_username", // TODO Discuss about the naming convention
-				Description: "The user's username.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("User.UserName"),
-			},
-			{
-				Name:        "user_profile_image_url",
-				Description: "The user's profile image URL.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("User.ProfileImageURL"),
-			},
-			{
-				Name:        "project",
-				Description: "Project is the project that triggered the event.",
-				Type:        proto.ColumnType_STRING,
-			},
-			{
-				Name:        "environment",
-				Description: "Environment is the environment's unique identifier.",
-				Type:        proto.ColumnType_STRING,
-			},
-			{
 				Name:        "config",
 				Description: "Config is the config's name.",
 				Type:        proto.ColumnType_STRING,
@@ -78,13 +50,33 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Description: "The time when the project was created.",
 				Type:        proto.ColumnType_TIMESTAMP,
 			},
-
-			// Doppler standard column
 			{
-				Name:        "title",
-				Description: ColumnDescriptionTitle,
+				Name:        "environment",
+				Description: "Environment is the environment's unique identifier.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("User.Name"),
+			},
+			{
+				Name:        "project",
+				Description: "Project is the project that triggered the event.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "user_email",
+				Description: "The user's email address.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("User.Email"),
+			},
+			{
+				Name:        "user_username",
+				Description: "The user's username.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("User.UserName"),
+			},
+			{
+				Name:        "user_profile_image_url",
+				Description: "The user's profile image URL.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("User.ProfileImageURL"),
 			},
 		}),
 	}

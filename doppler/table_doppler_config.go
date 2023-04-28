@@ -34,13 +34,13 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
-				Name:        "project",
-				Description: "The ID of the project.",
+				Name:        "name",
+				Description: "The name of the config.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
-				Name:        "name",
-				Description: "The name of the config.",
+				Name:        "project",
+				Description: "The ID of the project.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -54,9 +54,9 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
-				Name:        "root",
-				Description: "Whether the config is the root of the environment.",
-				Type:        proto.ColumnType_BOOL,
+				Name:        "initial_fetch_at",
+				Description: "Date and time of the first secrets fetch.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "locked",
@@ -64,14 +64,14 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
-				Name:        "initial_fetch_at",
-				Description: "Date and time of the first secrets fetch.",
-				Type:        proto.ColumnType_TIMESTAMP,
-			},
-			{
 				Name:        "last_fetch_at",
 				Description: "Date and time of the last secrets fetch.",
 				Type:        proto.ColumnType_TIMESTAMP,
+			},
+			{
+				Name:        "root",
+				Description: "Whether the config is the root of the environment.",
+				Type:        proto.ColumnType_BOOL,
 			},
 
 			// Doppler standard column

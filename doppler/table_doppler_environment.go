@@ -34,25 +34,20 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
+				Name:        "name",
+				Type:        proto.ColumnType_STRING,
+				Description: "Name of the environment.",
+			},
+			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
 				Description: "An identifier for the environment.",
 				Transform:   transform.FromField("ID"),
 			},
 			{
-				Name:        "slug",
-				Type:        proto.ColumnType_STRING,
-				Description: "A unique identifier for the environment.",
-			},
-			{
-				Name:        "name",
-				Type:        proto.ColumnType_STRING,
-				Description: "Name of the environment.",
-			},
-			{
-				Name:        "project",
-				Type:        proto.ColumnType_STRING,
-				Description: "Identifier of the project the environment belongs to.",
+				Name:        "created_at",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Description: "Date and time of the object's creation.",
 			},
 			{
 				Name:        "initial_fetch_at",
@@ -60,9 +55,14 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 				Description: "Date and time of the first secrets fetch from a config in the environment.",
 			},
 			{
-				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "Date and time of the object's creation.",
+				Name:        "project",
+				Type:        proto.ColumnType_STRING,
+				Description: "Identifier of the project the environment belongs to.",
+			},
+			{
+				Name:        "slug",
+				Type:        proto.ColumnType_STRING,
+				Description: "A unique identifier for the environment.",
 			},
 
 			// Doppler standard column
