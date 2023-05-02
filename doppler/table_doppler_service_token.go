@@ -31,7 +31,7 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 				// },
 				{
 					Name:    "config",
-					Require: plugin.Required,
+					Require: plugin.Optional,
 				},
 			},
 		},
