@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["security"]
 icon_url: "/images/plugins/turbot/doppler.svg"
-brand_color: ""
+brand_color: "#5571ef"
 display_name: "Doppler"
 short_name: "doppler"
 description: "Steampipe plugin to query projects, environments, secrets and more from Doppler."

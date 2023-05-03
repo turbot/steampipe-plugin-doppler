@@ -16,14 +16,13 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		TableMap: map[string]*plugin.Table{
+			"doppler_activity_log":  tableDopplerActivityLog(ctx),
 			"doppler_config":        tableDopplerConfig(ctx),
+			"doppler_environment":   tableDopplerEnvironment(ctx),
 			"doppler_project":       tableDopplerProject(ctx),
 			"doppler_secret":        tableDopplerSecret(ctx),
-			"doppler_environment":   tableDopplerEnvironment(ctx),
 			"doppler_service_token": tableDopplerServiceToken(ctx),
 			"doppler_user":          tableDopplerUser(ctx),
-			"doppler_activity_log":  tableDopplerActivityLog(ctx),
-
 		},
 	}
 	return p
