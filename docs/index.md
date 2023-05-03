@@ -16,26 +16,30 @@ og_image: "/images/plugins/turbot/doppler-social-graphic.png"
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-List your Doppler projects:
+List your Doppler secrets:
 
 ```sql
 select
-  name,
-  id,
-  description,
-  created_at,
-  workplace_name
+  project,
+  config_name,
+  secret_name,
+  secret_value_computed
 from
-  doppler_project;
+  doppler_secret;
 ```
 
 ```
-+---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
-| name                | id                  | description                                  | created_at                | workplace_name  |
-+---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
-| example-project     | example-project     | An example project with some sample secrets. | 2023-04-26T17:59:48+05:30 | steampipeplugin |
-| plugin-test-project | plugin-test-project | This is my first fancy project               | 2023-04-26T18:14:58+05:30 | steampipeplugin |
-+---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
++---------------------+-------------+---------------------+-----------------------+
+| project             | config_name | secret_name         | secret_value_computed |
++---------------------+-------------+---------------------+-----------------------+
+| plugin-test-project | dev_aws     | DOPPLER_PROJECT     | plugin-test-project   |
+| plugin-test-project | stg_aws     | DOPPLER_CONFIG      | stg_aws               |
+| plugin-test-project | sandbox     | DOPPLER_CONFIG      | sandbox               |
+| plugin-test-project | sandbox     | DOPPLER_ENVIRONMENT | sandbox               |
+| plugin-test-project | prd         | DOPPLER_CONFIG      | prd                   |
+| plugin-test-project | prd         | DOPPLER_PROJECT     | plugin-test-project   |
+| plugin-test-project | prd         | DOPPLER_ENVIRONMENT | prd                   |
++---------------------+-------------+---------------------+-----------------------+
 ```
 
 ## Documentation
@@ -71,10 +75,13 @@ Configure your account details in `~/.steampipe/config/doppler.spc`:
 connection "doppler" {
   plugin = "doppler"
 
-  # `doppler_token` (required) - To create an access token, refer to https://docs.doppler.com/docs/service-tokens
+  # `doppler_token` (required) - To create an access token, refer to https://docs.doppler.com/docs/service-tokens.
   # Can also be set with the DOPPLER_TOKEN environment variable.
   # doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
 
+  # `project_id` (required) - The doppler Project ID within a workplace.
+  # Can also be set with the DOPPLER_PROJECT_ID environment variable.
+  # project_id = "plugin-test-project"
 }
 ```
 
@@ -85,11 +92,13 @@ connection "doppler" {
 You may specify the Access Token to authenticate:
 
 - `doppler_token`: Specify the access token, either a personal or service token.
+- `project_id`: Specify the doppler Project ID in a workplace.
 
 ```hcl
 connection "doppler" {
   plugin = "doppler"
   doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+  project_id = "plugin-test-project"
 }
 ```
 
@@ -99,6 +108,7 @@ The doppler plugin will use the doppler environment variable to obtain credentia
 
 ```sh
 export DOPPLER_TOKEN="dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+export DOPPLER_PROJECT_ID="plugin-test-project"
 ```
 
 ## Get involved

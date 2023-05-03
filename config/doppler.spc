@@ -5,6 +5,6 @@ connection "doppler" {
   # A Doppler token, either a personal or service token.
   # doppler_token = "dp.pt.BBS2eoMYCQW6fLv2fghbdsjbaczdsffdeBSaap887Xkbdsa"
 
-  # [Required] The ID of a project in a workplace
+  # [Required] The ID of a project within a workplace.
   # project_id = "example-project"
 }

@@ -50,7 +50,7 @@ where
   root;
 ```
 
-### List locked configs
+### List configs that are locked
 
 ```sql
 select

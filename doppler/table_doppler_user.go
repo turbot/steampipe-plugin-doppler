@@ -119,7 +119,7 @@ func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (i
 	// Get client
 	client, _, err := GetUserClient(ctx, d.Connection)
 	if err != nil {
-		plugin.Logger(ctx).Error("doppler_user.getProject", "client_error", err)
+		plugin.Logger(ctx).Error("doppler_user.getUser", "client_error", err)
 		return nil, err
 	}
 
@@ -129,7 +129,7 @@ func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (i
 
 	op, _, err := client.WorkplaceUserGet(ctx, input)
 	if err != nil {
-		plugin.Logger(ctx).Error("doppler_project.getProject", "api_error", err)
+		plugin.Logger(ctx).Error("doppler_user.getUser", "api_error", err)
 		return nil, err
 	}
 

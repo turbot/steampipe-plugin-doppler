@@ -14,15 +14,14 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "doppler_project",
 		Description: "A Doppler project defines app config and secrets for one service or app.",
-		// Get: &plugin.GetConfig{
-		// 	// KeyColumns: plugin.SingleColumn("name"),
-		// 	Hydrate:    getProjectData,
-		// 	IgnoreConfig: &plugin.IgnoreConfig{
-		// 		ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project"}),
-		// 	},
-		// },
 		List: &plugin.ListConfig{
 			Hydrate: getProject,
+			// TODO: Should we handle the not found error code for this table?
+			// If the provided project ID is not valid in connectioon config then the table returns empty row if we handle the not found error code.
+			// The user will not be aware of why the table is returning an empty row.
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested project"}),
+			},
 		},
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
@@ -62,69 +61,17 @@ func tableDopplerProject(ctx context.Context) *plugin.Table {
 	}
 }
 
-// //// LIST FUNCTION
+//// LIST FUNCTION
 
 func getProject(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	// A Project ID field is mandatory in the connection configuration file, and it must be present in each connection.
+	// For each connection, we are fetching project details from the cache.
 	project, err := getProjectData(ctx, d, h)
 	if err != nil {
+		plugin.Logger(ctx).Error("doppler_project.getProject", "getProjectData_cached", err)
 		return nil, err
 	}
 	d.StreamListItem(ctx, project)
 
 	return nil, nil
 }
-
-// func listProjects(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-// 	// Get client
-// 	client, err := GetProjectClient(ctx, d.Connection)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_project.listProjects", "client_error", err)
-// 		return nil, err
-// 	}
-
-// 	input := &doppler.ProjectListOptions{}
-
-// 	// The SDK does not support pagination till date(04/23).
-// 	op, _, err := client.List(ctx, input)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_project.listProjects", "api_error", err)
-// 		return nil, err
-// 	}
-
-// 	for _, item := range op {
-// 		d.StreamListItem(ctx, item)
-
-// 		// Context may get cancelled due to manual cancellation or if the limit has been reached.
-// 		if d.RowsRemaining(ctx) == 0 {
-// 			return nil, nil
-// 		}
-// 	}
-
-// 	return nil, nil
-// }
-
-// //// HYDRATED FUNCTIONS
-
-// func getProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-
-// 	projectName := d.EqualsQualString("name")
-
-// 	// Get client
-// 	client, err := GetProjectClient(ctx, d.Connection)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_project.getProject", "client_error", err)
-// 		return nil, err
-// 	}
-
-// 	input := &doppler.ProjectGetOptions{
-// 		Name: projectName,
-// 	}
-
-// 	op, _, err := client.Get(ctx, input)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("doppler_project.getProject", "api_error", err)
-// 		return nil, err
-// 	}
-
-// 	return op, nil
-// }

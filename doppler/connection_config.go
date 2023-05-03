@@ -35,19 +35,20 @@ func GetConfig(connection *plugin.Connection) dopplerConfig {
 	return config
 }
 
-// GetConfigWithToken :: if user doesn't specify the token in the .spc file, we should rely on the environment variable 'DOPPLER_TOKEN' if any value is set.
+// GetConfigWithToken :: If the user has not provided a token and project ID in the .spc file, the application should check if the 'DOPPLER_TOKEN' and 'DOPPLER_PROJECT_ID' environment variables have values set. If they do have values set, then these environment variables should be used to authenticate the application.
 
 func GetConfigWithToken(connection *plugin.Connection) dopplerConfig {
 	config := GetConfig(connection)
 	dopplerToken := os.Getenv("DOPPLER_TOKEN")
 	dopplerProjectId := os.Getenv("DOPPLER_PROJECT_ID")
+
 	if config.DOPPLER_TOKEN == nil && dopplerToken == "" {
-		errorMessage := fmt.Sprintf("Connection %s config does not have token, or does not have a valid token set in environment variable DOPPLER_TOKEN, please add the the token and restart the seampipe.", connection.Name)
+		errorMessage := fmt.Sprintf("Connection %s config does not have a valid token, or does not have a valid token set in environment variable DOPPLER_TOKEN, please add the token and restart the seampipe.", connection.Name)
 		panic(errorMessage)
 	} else if config.DOPPLER_TOKEN == nil && dopplerToken != "" {
 		config.DOPPLER_TOKEN = &dopplerToken
 	} else if config.PROJECT_ID == nil && dopplerProjectId == "" {
-		errorMessage := fmt.Sprintf("Connection %s config does not have priject ID, or does not have a valid project ID set in environment variable DOPPLER_PROJECT_ID, please add the the project ID and restart the seampipe.", connection.Name)
+		errorMessage := fmt.Sprintf("Connection %s config does not have a valid priject ID, or does not have a valid project ID set in environment variable DOPPLER_PROJECT_ID, please add the project ID and restart the seampipe.", connection.Name)
 		panic(errorMessage)
 	} else if config.PROJECT_ID == nil && dopplerProjectId != "" {
 		config.PROJECT_ID = &dopplerProjectId

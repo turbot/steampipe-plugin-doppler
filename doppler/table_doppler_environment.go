@@ -79,14 +79,6 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	// project := h.Item.(*doppler.Project)
-	// projectId := d.EqualsQualString("project")
-
-	// // Reduce the numbers of API call if the project id is provided in the where clause.
-	// if projectId != "" && projectId != *project.ID {
-	// 	return nil, nil
-	// }
-
 	// Get client
 	client, projectId, err := GetEnvironmentClient(ctx, d.Connection)
 	if err != nil {
@@ -119,13 +111,12 @@ func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 //// HYDRATED FUNCTIONS
 
 func getEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	// projectId := d.EqualsQualString("project")
 	slug := d.EqualsQualString("slug")
 
-	// // Empty Check
-	// if projectId == "" || slug == "" {
-	// 	return nil, nil
-	// }
+	// Empty check
+	if slug == "" {
+		return nil, nil
+	}
 
 	// Get client
 	client, projectId, err := GetEnvironmentClient(ctx, d.Connection)

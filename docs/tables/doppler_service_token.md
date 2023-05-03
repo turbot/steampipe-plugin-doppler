@@ -2,8 +2,6 @@
 
 A Doppler Service Token provides read-only secrets access to a specific config within a project.
 
-- You **_must_** specify `config` in a `where` clause in order to use this table.
-
 ## Examples
 
 ### Basic info
@@ -20,9 +18,7 @@ select
   project,
   workplace_name
 from
-  doppler_service_token
-where
-  config = 'dev_aws';
+  doppler_service_token;
 ```
 
 ### List service tokens that are expiring in the next 30 days
@@ -61,11 +57,10 @@ select
 from
   doppler_service_token
 where
-  config = 'dev'
-  and access = 'read/write';
+  access = 'read/write';
 ```
 
-### List service tokens that never expire
+### List service tokens that never expires
 
 ```sql
 select
@@ -81,6 +76,5 @@ select
 from
   doppler_service_token
 where
-  config = 'dev'
-  and expires_at is null;
+  expires_at is null;
 ```

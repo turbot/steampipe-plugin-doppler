@@ -16,7 +16,6 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "doppler_secret",
 		List: &plugin.ListConfig{
-			// ParentHydrate: listProjects,
 			ParentHydrate: listConfigs,
 			Hydrate:       listSecrets,
 			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
@@ -24,10 +23,6 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
 			// },
 			KeyColumns: plugin.KeyColumnSlice{
-				// {
-				// 	Name:    "project",
-				// 	Require: plugin.Optional,
-				// },
 				{
 					Name:    "config_name",
 					Require: plugin.Optional,
@@ -88,7 +83,7 @@ func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("config_name")
 
-	// Reduce the numbers of API call if the project id is provided in the where clause.
+	// Reduce the numbers of API call if the coonfig name is provided in the where clause.
 	if configName != "" {
 		if configName != *config.Name {
 			return nil, nil
@@ -109,7 +104,7 @@ func listSecrets(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 
 	// The SDK does not support pagination till date(04/23).
 	op, _, err := client.List(ctx, input)
-	// In the case of parent hydrate the ignore config is not behaving properly so we need to handle the not found error code here.
+	// In the case of parent hydrate the ignore config is not behaving properly, so we need to handle the not found error code here.
 	if err != nil {
 		if strings.Contains(err.Error(), "Could not find requested config") {
 			return nil, nil

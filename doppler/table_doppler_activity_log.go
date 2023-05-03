@@ -117,10 +117,15 @@ func getActivityLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	id := d.EqualsQualString("id")
 
+	/// Empty check
+	if id == "" {
+		return nil, nil
+	}
+
 	// Get client
 	client, _, err := GetActivityLogClient(ctx, d.Connection)
 	if err != nil {
-		plugin.Logger(ctx).Error("doppler_user.getActivityLog", "client_error", err)
+		plugin.Logger(ctx).Error("doppler_activity_log.getActivityLog", "client_error", err)
 		return nil, err
 	}
 

@@ -88,16 +88,6 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	// project := h.Item.(*doppler.Project)
-	// projectId := d.EqualsQualString("project")
-
-	// Reduce the numbers of API call if the project id is provided in the where clause.
-	// if projectId != "" {
-	// 	if projectId != *project.ID {
-	// 		return nil, nil
-	// 	}
-	// }
-
 	// Get client
 	client, projectId, err := GetConfigClient(ctx, d.Connection)
 	if err != nil {
@@ -131,14 +121,13 @@ func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 //// HYDRATED FUNCTIONS
 
 func getConfig(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("name")
 
-	// // Empty Check
-	// if projectId == "" || configName == "" {
-	// 	return nil, nil
-	// }
-
+	// Empty check
+	if configName == "" {
+		return nil, nil
+	}
+	
 	// Get client
 	client, projectId, err := GetConfigClient(ctx, d.Connection)
 	if err != nil {

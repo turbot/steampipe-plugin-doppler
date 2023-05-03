@@ -17,7 +17,6 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 		Name:        "doppler_service_token",
 		Description: "Doppler Service Token",
 		List: &plugin.ListConfig{
-			// ParentHydrate: listProjects,
 			ParentHydrate: listConfigs,
 			Hydrate:       listServiceTokens,
 			// TODO: Uncomment the ignore config once the ignore config started working with parent hydrate.
@@ -25,10 +24,6 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Could not find requested config"}),
 			// },
 			KeyColumns: plugin.KeyColumnSlice{
-				// {
-				// 	Name:    "project",
-				// 	Require: plugin.Optional,
-				// },
 				{
 					Name:    "config",
 					Require: plugin.Optional,
@@ -100,16 +95,11 @@ func listServiceTokens(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 	// projectId := d.EqualsQualString("project")
 	configName := d.EqualsQualString("config")
 
-	// Reduce the numbers of API call if the project id is provided in the where clause.
+	// Reduce the numbers of API call if the config name is provided in the where clause.
 	if configName != "" {
 		if configName != *config.Name {
 			return nil, nil
 		}
-	}
-
-	// Empty check
-	if configName == "" {
-		return nil, nil
 	}
 
 	// Get client

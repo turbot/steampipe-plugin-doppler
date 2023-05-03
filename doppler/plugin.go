@@ -15,9 +15,6 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			Schema:      ConfigSchema,
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
-		// DefaultGetConfig: &plugin.GetConfig{
-		// 	ShouldIgnoreError: isNotFoundError,
-		// },
 		TableMap: map[string]*plugin.Table{
 			"doppler_config":        tableDopplerConfig(ctx),
 			"doppler_project":       tableDopplerProject(ctx),

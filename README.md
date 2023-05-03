@@ -23,14 +23,16 @@ Configure your [credentials](https://hub.steampipe.io/plugins/turbot/doppler#cre
 
 Configure your account details in `~/.steampipe/config/doppler.spc`:
 
-You may specify the Access Token to authenticate:
+You may specify the Access Token and Project ID to authenticate:
 
 - `doppler_token`: Specify the access token, either a personal or service token.
+- `project_id`: Specify the doppler Project ID within a workplace.
 
 ```hcl
 connection "doppler" {
   plugin = "doppler"
   doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+  project_id = "plugin-test-project"
 }
 ```
 
@@ -38,6 +40,7 @@ or through environment variables
 
 ```sh
 export DOPPLER_TOKEN="dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+export DOPPLER_PROJECT_ID="plugin-test-project"
 ```
 
 Run steampipe:
@@ -46,7 +49,7 @@ Run steampipe:
 steampipe query
 ```
 
-List your Doppler projects:
+Get your Doppler project:
 
 ```sql
 select
@@ -63,7 +66,6 @@ from
 +---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
 | name                | id                  | description                                  | created_at                | workplace_name  |
 +---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
-| example-project     | example-project     | An example project with some sample secrets. | 2023-04-26T17:59:48+05:30 | steampipeplugin |
 | plugin-test-project | plugin-test-project | This is my first fancy project               | 2023-04-26T18:14:58+05:30 | steampipeplugin |
 +---------------------+---------------------+----------------------------------------------+---------------------------+-----------------+
 ```

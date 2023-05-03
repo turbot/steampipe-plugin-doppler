@@ -56,6 +56,7 @@ func getCommonColumns(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 	return workplaceData, nil
 }
 
+// Cached the workplace details
 var getWorkplace = plugin.HydrateFunc(getWorkplaceDataUncached).Memoize()
 
 func getWorkplaceDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -93,6 +94,7 @@ func getProjectData(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 
 }
 
+// Cached the project details
 var getProjectDetails = plugin.HydrateFunc(getProjectDataUncached).Memoize()
 
 func getProjectDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
