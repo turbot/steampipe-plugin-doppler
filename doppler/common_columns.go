@@ -2,6 +2,8 @@ package doppler
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/nikoksr/doppler-go"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -113,6 +115,10 @@ func getProjectDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	})
 	if err != nil {
 		plugin.Logger(ctx).Error("getProjectDataUncached", "status", "failed", "connection_name", d.Connection.Name, "api_error", err)
+		if strings.Contains(err.Error(), "Could not find requested project") {
+			errorMessage := fmt.Errorf("Connection %s config does not have a valid Project ID, update the Project ID in the configuration file or environment variable DOPPLER_PROJECT_ID and restart the steampipe.", d.Connection.Name)
+			return nil, errorMessage
+		}
 		return nil, err
 	}
 
