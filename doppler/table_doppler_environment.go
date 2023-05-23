@@ -65,7 +65,7 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 				Description: "A unique identifier for the environment.",
 			},
 
-			// Doppler standard column
+			// Steampipe standard column
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
@@ -108,7 +108,7 @@ func listEnvironments(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 	return nil, nil
 }
 
-//// HYDRATED FUNCTIONS
+//// HYDRATE FUNCTIONS
 
 func getEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	slug := d.EqualsQualString("slug")

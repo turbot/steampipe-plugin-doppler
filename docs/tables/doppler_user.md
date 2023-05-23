@@ -33,7 +33,7 @@ select
 from
   doppler_user
 where
-  created_at > now() - interval '30 day';
+  created_at >= now() - interval '30 day';
 ```
 
 ### List users with owner access

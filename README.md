@@ -11,6 +11,8 @@ Use SQL to query projects, environments, secrets and more from Doppler.
 
 ## Quick start
 
+### Install
+
 Download and install the latest Doppler plugin:
 
 ```bash
@@ -36,7 +38,7 @@ connection "doppler" {
 }
 ```
 
-or through environment variables
+Or through environment variables
 
 ```sh
 export DOPPLER_TOKEN="dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"

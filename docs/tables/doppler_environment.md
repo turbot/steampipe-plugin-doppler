@@ -31,7 +31,7 @@ select
 from
   doppler_environment
 where
-  created_at > now() - interval '30 day';
+  created_at >= now() - interval '30 day';
 ```
 
 ### List environments from a specific project

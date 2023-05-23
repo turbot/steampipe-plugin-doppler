@@ -57,7 +57,7 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 
-			// Doppler standard column
+			// Steampipe standard column
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,

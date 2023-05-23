@@ -74,7 +74,7 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_BOOL,
 			},
 
-			// Doppler standard column
+			// Steampipe standard column
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
@@ -118,7 +118,7 @@ func listConfigs(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 	return nil, nil
 }
 
-//// HYDRATED FUNCTIONS
+//// HYDRATE FUNCTIONS
 
 func getConfig(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	configName := d.EqualsQualString("name")
@@ -127,7 +127,7 @@ func getConfig(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 	if configName == "" {
 		return nil, nil
 	}
-	
+
 	// Get client
 	client, projectId, err := GetConfigClient(ctx, d.Connection)
 	if err != nil {

@@ -29,12 +29,10 @@ select
   c.root as config_root
 from
   doppler_secret s
-  inner join
-    doppler_config c
-    on s.config_name = c.name;
+  inner join doppler_config c on s.config_name = c.name;
 ```
 
-### Count numbers of secrets by config
+### Count the number of secrets by config
 
 ```sql
 select
@@ -65,7 +63,5 @@ from
   inner join
     doppler_config c
     on s.config_name = c.name
-  inner join
-    doppler_environment e
-    on e.slug = c.environment;
+  inner join doppler_environment e on e.slug = c.environment;
 ```

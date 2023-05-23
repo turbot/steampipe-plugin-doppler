@@ -35,6 +35,12 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
+				Name:        "html",
+				Description: "HTML describing the event.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("HTML"),
+			},
+			{
 				Name:        "user_name",
 				Description: "The user's name.",
 				Type:        proto.ColumnType_STRING,
@@ -47,7 +53,7 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 			},
 			{
 				Name:        "created_at",
-				Description: "The time when the project was created.",
+				Description: "The time when the activity log was created.",
 				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
@@ -77,6 +83,14 @@ func tableDopplerActivityLog(ctx context.Context) *plugin.Table {
 				Description: "The user's profile image URL.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("User.ProfileImageURL"),
+			},
+
+			// Steampipe standard column
+			{
+				Name:        "title",
+				Description: ColumnDescriptionTitle,
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("ID"),
 			},
 		}),
 	}
@@ -112,6 +126,8 @@ func listActivityLogs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	return nil, nil
 }
+
+//// HYDRATE FUNCTION
 
 func getActivityLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 

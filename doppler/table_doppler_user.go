@@ -25,7 +25,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "id",
-				Description: "ID is the unique identifier for the object.",
+				Description: "The ID of the user.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -36,7 +36,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 			},
 			{
 				Name:        "access",
-				Description: "The description of the project.",
+				Description: "The access level of the user.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -63,7 +63,7 @@ func tableDopplerUser(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("User.UserName"),
 			},
 
-			// Doppler standard column
+			// Steampipe standard column
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
@@ -105,7 +105,7 @@ func listUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	return nil, nil
 }
 
-//// HYDRATED FUNCTIONS
+//// HYDRATE FUNCTIONS
 
 func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 

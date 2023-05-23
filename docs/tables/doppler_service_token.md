@@ -38,7 +38,7 @@ from
   doppler_service_token
 where
   config = 'dev'
-  and expires_at < now() + interval '30 day';
+  and expires_at <= now() + interval '30 day';
 ```
 
 ### List service tokens with read/write access
