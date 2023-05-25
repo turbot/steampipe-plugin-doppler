@@ -21,28 +21,23 @@ steampipe plugin install doppler
 
 Configure your [credentials](https://hub.steampipe.io/plugins/turbot/doppler#credentials) and [config file](https://hub.steampipe.io/plugins/turbot/doppler#configuration).
 
-### Configuring Doppler Credentials
-
 Configure your account details in `~/.steampipe/config/doppler.spc`:
-
-You may specify the Access Token and Project ID to authenticate:
-
-- `doppler_token`: Specify the access token, either a personal or service token.
-- `project_id`: Specify the doppler Project ID within a workplace.
 
 ```hcl
 connection "doppler" {
   plugin = "doppler"
+
+  # Authentication information
   doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
   project_id = "plugin-test-project"
 }
 ```
 
-Or through environment variables
+Or through environment variables:
 
 ```sh
-export DOPPLER_TOKEN="dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
-export DOPPLER_PROJECT_ID="plugin-test-project"
+export DOPPLER_TOKEN=dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih
+export DOPPLER_PROJECT_ID=plugin-test-project
 ```
 
 Run steampipe:

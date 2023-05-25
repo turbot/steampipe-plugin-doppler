@@ -60,7 +60,7 @@ steampipe plugin install doppler
 
 | Item        | Description                                                                                                                                                                 |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Credentials | Doppler requires a `project_id` and an [Access Token](https://docs.doppler.com/reference/auth-token-formats)                                                                                   |
+| Credentials | Doppler requires a `project ID` and an [Access Token](https://docs.doppler.com/reference/auth-token-formats)                                                                                   |
 | Permissions | The permission scope of access tokens is limited to the projects or environments based on token type.                                                                       |
 | Radius      | Each connection represents a single doppler Installation.                                                                                                                   |
 | Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/doppler.spc`)<br />2. Credentials specified in environment variables, e.g., `DOPPLER_TOKEN` and `DOPPLER_PROJECT_ID`. |
@@ -88,8 +88,8 @@ connection "doppler" {
 Alternatively, you can also use the standard Doppler environment variables to obtain credentials **only if other arguments (`doppler_token` and `project_id`) are not specified** in the connection:
 
 ```sh
-export DOPPLER_TOKEN="dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
-export DOPPLER_PROJECT_ID="plugin-test-project"
+export DOPPLER_TOKEN=dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih
+export DOPPLER_PROJECT_ID=plugin-test-project
 ```
 ## Get involved
 

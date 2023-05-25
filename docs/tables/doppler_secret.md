@@ -40,9 +40,7 @@ select
   count(s.secret_name)
 from
   doppler_secret s
-  inner join
-    doppler_config c
-    on s.config_name = c.name
+  inner join doppler_config c on s.config_name = c.name
 group by
   s.config_name;
 ```
@@ -60,8 +58,6 @@ select
   e.initial_fetch_at as environmant_initial_fetch_at
 from
   doppler_secret s
-  inner join
-    doppler_config c
-    on s.config_name = c.name
+  inner join doppler_config c on s.config_name = c.name
   inner join doppler_environment e on e.slug = c.environment;
 ```
