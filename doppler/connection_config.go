@@ -9,8 +9,8 @@ import (
 )
 
 type dopplerConfig struct {
-	DOPPLER_TOKEN *string `cty:"doppler_token"`
-	PROJECT_ID    *string `cty:"project_id"`
+	DopplerToken *string `cty:"doppler_token"`
+	ProjectId    *string `cty:"project_id"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
@@ -42,16 +42,16 @@ func GetConfigWithToken(connection *plugin.Connection) dopplerConfig {
 	dopplerToken := os.Getenv("DOPPLER_TOKEN")
 	dopplerProjectId := os.Getenv("DOPPLER_PROJECT_ID")
 
-	if config.DOPPLER_TOKEN == nil && dopplerToken == "" {
+	if config.DopplerToken == nil && dopplerToken == "" {
 		errorMessage := fmt.Sprintf("Connection %s config does not have a valid token, update the token in the configuration file or environment variable DOPPLER_TOKEN and restart the steampipe.", connection.Name)
 		panic(errorMessage)
-	} else if config.DOPPLER_TOKEN == nil && dopplerToken != "" {
-		config.DOPPLER_TOKEN = &dopplerToken
-	} else if config.PROJECT_ID == nil && dopplerProjectId == "" {
+	} else if config.DopplerToken == nil && dopplerToken != "" {
+		config.DopplerToken = &dopplerToken
+	} else if config.ProjectId == nil && dopplerProjectId == "" {
 		errorMessage := fmt.Sprintf("Connection %s config does not have a valid Project ID, update the Project ID in the configuration file or environment variable DOPPLER_PROJECT_ID and restart the steampipe.", connection.Name)
 		panic(errorMessage)
-	} else if config.PROJECT_ID == nil && dopplerProjectId != "" {
-		config.PROJECT_ID = &dopplerProjectId
+	} else if config.ProjectId == nil && dopplerProjectId != "" {
+		config.ProjectId = &dopplerProjectId
 	}
 
 	return config

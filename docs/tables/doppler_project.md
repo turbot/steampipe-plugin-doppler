@@ -30,7 +30,7 @@ where
   created_at between '2022-01-01' and '2022-12-31';
 ```
 
-### Get a particular project details
+### Get particular project details
 
 ```sql
 select

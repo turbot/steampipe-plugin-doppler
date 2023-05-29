@@ -111,7 +111,7 @@ func getProjectDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 
 	response, _, err := client.Get(ctx, &doppler.ProjectGetOptions{
-		Name: *config.PROJECT_ID,
+		Name: *config.ProjectId,
 	})
 	if err != nil {
 		plugin.Logger(ctx).Error("getProjectDataUncached", "status", "failed", "connection_name", d.Connection.Name, "api_error", err)

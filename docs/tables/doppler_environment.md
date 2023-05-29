@@ -34,7 +34,7 @@ where
   created_at >= now() - interval '30 day';
 ```
 
-### List environments from a specific project
+### List environments for a specific project
 
 ```sql
 select
