@@ -37,7 +37,7 @@ select
   id,
   name,
   created_at,
-  description
+  description,
   slug
 from
   doppler_project
