@@ -60,7 +60,7 @@ steampipe plugin install doppler
 
 | Item        | Description                                                                                                                                                                 |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Credentials | Doppler requires a `project ID` and an [Access Token](https://docs.doppler.com/reference/auth-token-formats)                                                                                   |
+| Credentials | Doppler requires a `project ID` and an [Doppler Token](https://docs.doppler.com/reference/auth-token-formats)                                                                                   |
 | Permissions | The permission scope of access tokens is limited to the projects or environments based on token type.                                                                       |
 | Radius      | Each connection represents a single doppler Installation.                                                                                                                   |
 | Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/doppler.spc`)<br />2. Credentials specified in environment variables, e.g., `DOPPLER_TOKEN` and `DOPPLER_PROJECT_ID`. |
@@ -75,13 +75,14 @@ Configure your account details in `~/.steampipe/config/doppler.spc`:
 connection "doppler" {
   plugin = "doppler"
 
-  # `doppler_token` (required) - To create an access token, refer to https://docs.doppler.com/docs/service-tokens.
-  # Can also be set with the DOPPLER_TOKEN environment variable.
-  # doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+  # A Doppler token, either a personal or service token is required for requests. Required.
+  # For setting a token see instructions at https://docs.doppler.com/reference/auth-token-formats
+  # This can also be set via the `DOPPLER_TOKEN` environment variable.
+  # doppler_token = "dp.pt.BBS2eoMYCQW6fLv2fghbdsjbaczdsffdeBSaap887Xkbdsa"
 
-  # `project_id` (required) - The doppler Project ID within a workplace.
-  # Can also be set with the DOPPLER_PROJECT_ID environment variable.
-  # project_id = "plugin-test-project"
+  # The ID of a project within a workplace is required for requests. Required.
+  # This can also be set via the `DOPPLER_PROJECT_ID` environment variable.
+  # project_id = "example-project"
 }
 ```
 
