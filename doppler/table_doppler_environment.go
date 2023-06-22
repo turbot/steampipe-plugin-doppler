@@ -35,34 +35,34 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 		Columns: commonColumnsForAllResource([]*plugin.Column{
 			{
 				Name:        "name",
-				Type:        proto.ColumnType_STRING,
 				Description: "Name of the environment.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "id",
-				Type:        proto.ColumnType_STRING,
 				Description: "An identifier for the environment.",
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("ID"),
 			},
 			{
 				Name:        "created_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "Date and time of the object's creation.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "initial_fetch_at",
-				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "Date and time of the first secrets fetch from a config in the environment.",
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "project",
-				Type:        proto.ColumnType_STRING,
 				Description: "Identifier of the project the environment belongs to.",
+				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "slug",
-				Type:        proto.ColumnType_STRING,
 				Description: "A unique identifier for the environment.",
+				Type:        proto.ColumnType_STRING,
 			},
 
 			// Steampipe standard column
