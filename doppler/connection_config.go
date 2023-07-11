@@ -39,14 +39,14 @@ func GetConfig(connection *plugin.Connection) dopplerConfig {
 
 func GetConfigWithToken(connection *plugin.Connection) dopplerConfig {
 	config := GetConfig(connection)
-	token := os.Getenv("DOPPLER_TOKEN")
+	dtoken := os.Getenv("DOPPLER_TOKEN")
 	dopplerProjectId := os.Getenv("DOPPLER_PROJECT_ID")
 
-	if config.Token == nil && token == "" {
+	if config.Token == nil && dtoken == "" {
 		errorMessage := fmt.Sprintf("Connection %s config does not have a valid token, update the token in the configuration file or environment variable DOPPLER_TOKEN and restart the steampipe.", connection.Name)
 		panic(errorMessage)
-	} else if config.Token == nil && token != "" {
-		config.Token = &token
+	} else if config.Token == nil && dtoken != "" {
+		config.Token = &dtoken
 	} else if config.ProjectId == nil && dopplerProjectId == "" {
 		errorMessage := fmt.Sprintf("Connection %s config does not have a valid Project ID, update the Project ID in the configuration file or environment variable DOPPLER_PROJECT_ID and restart the steampipe.", connection.Name)
 		panic(errorMessage)
