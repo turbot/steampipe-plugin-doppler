@@ -75,10 +75,10 @@ Configure your account details in `~/.steampipe/config/doppler.spc`:
 connection "doppler" {
   plugin = "doppler"
 
-  # A Doppler token, either a personal or service token is required for requests. Required.
+  # A token, either a personal or service token is required for requests. Required.
   # For setting a token see instructions at https://docs.doppler.com/reference/auth-token-formats
   # This can also be set via the `DOPPLER_TOKEN` environment variable.
-  # doppler_token = "dp.pt.BBS2eoMYCQW6fLv2fghbdsjbaczdsffdeBSaap887Xkbdsa"
+  # token = "dp.pt.BBS2eoMYCQW6fLv2fghbdsjbaczdsffdeBSaap887Xkbdsa"
 
   # The ID of a project within a workplace is required for requests. Required.
   # This can also be set via the `DOPPLER_PROJECT_ID` environment variable.
@@ -86,7 +86,7 @@ connection "doppler" {
 }
 ```
 
-Alternatively, you can also use the standard Doppler environment variables to obtain credentials **only if other arguments (`doppler_token` and `project_id`) are not specified** in the connection:
+Alternatively, you can also use the standard Doppler environment variables to obtain credentials **only if other arguments (`token` and `project_id`) are not specified** in the connection:
 
 ```sh
 export DOPPLER_TOKEN=dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih
