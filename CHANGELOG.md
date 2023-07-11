@@ -1,3 +1,9 @@
+## v0.0.2 [2023-07-11]
+
+_Bug fixes_
+
+- Fixed the plugin's config argument to use `token` instead of `doppler_token` to align with the API documentation. ([#4](https://github.com/turbot/steampipe-plugin-doppler/pull/4))
+
 ## v0.0.1 [2023-06-22]
 
 _What's new?_
