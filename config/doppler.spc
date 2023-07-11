@@ -1,7 +1,7 @@
 connection "doppler" {
   plugin = "doppler"
 
-  # A token, either a personal or service token is required for requests. Required.
+  # A Doppler token, either a personal or service token is required for requests. Required.
   # For setting a token see instructions at https://docs.doppler.com/reference/auth-token-formats
   # This can also be set via the `DOPPLER_TOKEN` environment variable.
   # token = "dp.pt.BBS2eoMYCQW6fLv2fghbdsjbaczdsffdeBSaap887Xkbdsa"
