@@ -28,7 +28,7 @@ connection "doppler" {
   plugin = "doppler"
 
   # Authentication information
-  doppler_token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
+  token = "dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih"
   project_id = "plugin-test-project"
 }
 ```

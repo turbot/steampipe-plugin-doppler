@@ -19,7 +19,7 @@ import (
 func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Client, error) {
 	config := GetConfigWithToken(d)
 
-	doppler.Key = *config.DopplerToken
+	doppler.Key = *config.Token
 	return &project.Client{
 		Backend: doppler.GetBackend(),
 		Key:     doppler.Key,
@@ -31,8 +31,8 @@ func GetProjectClient(ctx context.Context, d *plugin.Connection) (*project.Clien
 func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" {
-		doppler.Key = *config.DopplerToken
+	if *config.Token != "" {
+		doppler.Key = *config.Token
 		return &projectConfig.Client{
 			Backend: doppler.GetBackend(),
 			Key:     doppler.Key,
@@ -46,8 +46,8 @@ func GetConfigClient(ctx context.Context, d *plugin.Connection) (*projectConfig.
 func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
-		doppler.Key = *config.DopplerToken
+	if *config.Token != "" || *config.ProjectId != "" {
+		doppler.Key = *config.Token
 		return &secret.Client{
 			Backend: doppler.GetBackend(),
 			Key:     doppler.Key,
@@ -61,10 +61,10 @@ func GetSecretClient(ctx context.Context, d *plugin.Connection) (*secret.Client,
 func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environment.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
+	if *config.Token != "" || *config.ProjectId != "" {
 		return &environment.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.DopplerToken,
+			Key:     *config.Token,
 		}, config.ProjectId, nil
 	}
 
@@ -75,10 +75,10 @@ func GetEnvironmentClient(ctx context.Context, d *plugin.Connection) (*environme
 func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicetoken.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
+	if *config.Token != "" || *config.ProjectId != "" {
 		return &servicetoken.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.DopplerToken,
+			Key:     *config.Token,
 		}, config.ProjectId, nil
 	}
 
@@ -89,10 +89,10 @@ func GetServiceTokenClient(ctx context.Context, d *plugin.Connection) (*servicet
 func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
+	if *config.Token != "" || *config.ProjectId != "" {
 		return &audit.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.DopplerToken,
+			Key:     *config.Token,
 		}, config.ProjectId, nil
 	}
 	return nil, nil, nil
@@ -102,10 +102,10 @@ func GetUserClient(ctx context.Context, d *plugin.Connection) (*audit.Client, *s
 func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.Client, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
+	if *config.Token != "" || *config.ProjectId != "" {
 		return &workplace.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.DopplerToken,
+			Key:     *config.Token,
 		}, nil
 	}
 
@@ -115,10 +115,10 @@ func GetWorkplaceClient(ctx context.Context, d *plugin.Connection) (*workplace.C
 func GetActivityLogClient(ctx context.Context, d *plugin.Connection) (*activitylog.Client, *string, error) {
 	config := GetConfigWithToken(d)
 
-	if *config.DopplerToken != "" || *config.ProjectId != "" {
+	if *config.Token != "" || *config.ProjectId != "" {
 		return &activitylog.Client{
 			Backend: doppler.GetBackend(),
-			Key:     *config.DopplerToken,
+			Key:     *config.Token,
 		}, config.ProjectId, nil
 	}
 
