@@ -95,4 +95,4 @@ export DOPPLER_PROJECT_ID=plugin-test-project
 ## Get involved
 
 - Open source: https://github.com/turbot/steampipe-plugin-doppler
-- Community: [Slack Channel](https://steampipe.io/community/join)
+- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
