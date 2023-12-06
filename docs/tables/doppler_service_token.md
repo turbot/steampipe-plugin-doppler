@@ -16,7 +16,22 @@ The `doppler_service_token` table provides insights into the service tokens with
 ### Basic info
 Explore the specifics of your service tokens, such as their accessibility, expiration, and creation dates, as well as their configuration and associated projects. This can help you manage your tokens effectively, ensuring they are up-to-date and used in the correct environments.
 
-```sql
+```sql+postgres
+select
+  name,
+  slug,
+  access,
+  expires_at,
+  created_at,
+  config,
+  environment,
+  project,
+  workplace_name
+from
+  doppler_service_token;
+```
+
+```sql+sqlite
 select
   name,
   slug,
@@ -34,7 +49,7 @@ from
 ### List service tokens that are expiring in the next 30 days
 Identify instances where service tokens are set to expire within the next month. This is useful for staying ahead of potential access issues and ensuring uninterrupted service.
 
-```sql
+```sql+postgres
 select
   name,
   slug,
@@ -52,10 +67,45 @@ where
   and expires_at <= now() + interval '30 day';
 ```
 
+```sql+sqlite
+select
+  name,
+  slug,
+  access,
+  expires_at,
+  created_at,
+  config,
+  environment,
+  project,
+  workplace_name
+from
+  doppler_service_token
+where
+  config = 'dev'
+  and expires_at <= datetime('now', '+30 day');
+```
+
 ### List service tokens with read/write access
 Discover the service tokens that have read/write access. This is useful for identifying potential security risks, as these tokens can modify your data.
 
-```sql
+```sql+postgres
+select
+  name,
+  slug,
+  access,
+  expires_at,
+  created_at,
+  config,
+  environment,
+  project,
+  workplace_name
+from
+  doppler_service_token
+where
+  access = 'read/write';
+```
+
+```sql+sqlite
 select
   name,
   slug,
@@ -75,7 +125,24 @@ where
 ### List service tokens that never expires
 Explore which service tokens within your project are set to never expire. This can help identify potential security risks and enforce best practices for token management.
 
-```sql
+```sql+postgres
+select
+  name,
+  slug,
+  access,
+  expires_at,
+  created_at,
+  config,
+  environment,
+  project,
+  workplace_name
+from
+  doppler_service_token
+where
+  expires_at is null;
+```
+
+```sql+sqlite
 select
   name,
   slug,

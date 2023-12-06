@@ -16,7 +16,19 @@ The `doppler_environment` table provides insights into Doppler Environments with
 ### Basic info
 Explore which Doppler environments are linked to specific projects, when they were created, and their associated workplace names. This can help assess the organization and distribution of your resources within a project.
 
-```sql
+```sql+postgres
+select
+  id,
+  slug,
+  name,
+  project,
+  created_at,
+  workplace_name
+from
+  doppler_environment;
+```
+
+```sql+sqlite
 select
   id,
   slug,
@@ -31,7 +43,7 @@ from
 ### List environments that are created in the last 30 days
 Discover the segments that were established in the past month. This can provide insights into recent project developments and their associated environments, aiding in project management and planning.
 
-```sql
+```sql+postgres
 select
   id,
   slug,
@@ -45,10 +57,38 @@ where
   created_at >= now() - interval '30 day';
 ```
 
+```sql+sqlite
+select
+  id,
+  slug,
+  name,
+  project,
+  created_at,
+  workplace_name
+from
+  doppler_environment
+where
+  created_at >= datetime('now', '-30 day');
+```
+
 ### List environments for a specific project
 Explore which environments are associated with a specific project. This is useful for understanding the various settings and configurations tied to a particular project, aiding in project management and oversight.
 
-```sql
+```sql+postgres
+select
+  id,
+  slug,
+  name,
+  project,
+  created_at,
+  workplace_name
+from
+  doppler_environment
+where
+  project = 'example-project';
+```
+
+```sql+sqlite
 select
   id,
   slug,

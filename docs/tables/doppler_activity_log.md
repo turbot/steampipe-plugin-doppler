@@ -16,7 +16,19 @@ The `doppler_activity_log` table provides insights into user activities within D
 ### Basic info
 Explore the history of user activity in your workplace by identifying when specific actions were taken and by whom. This can be useful for auditing purposes, understanding user behavior, or investigating specific incidents.
 
-```sql
+```sql+postgres
+select
+  id,
+  text,
+  created_at,
+  user_name,
+  user_email,
+  workplace_name
+from
+  doppler_activity_log;
+```
+
+```sql+sqlite
 select
   id,
   text,
@@ -31,7 +43,7 @@ from
 ### List activity within the last 30 days
 Explore recent user activity to gain insights into user engagement and interactions within the past month. This can help assess the dynamics of your workplace and understand user behavior patterns.
 
-```sql
+```sql+postgres
 select
   id,
   text,
@@ -45,10 +57,37 @@ where
   created_at >= now() - interval '30 day';
 ```
 
+```sql+sqlite
+select
+  id,
+  text,
+  created_at,
+  user_name,
+  user_email,
+  workplace_name
+from
+  doppler_activity_log
+where
+  created_at >= datetime('now','-30 day');
+```
+
 ### List activity from bots like Doppler Bot and GitHub bot
 Identify instances where activities have been carried out by bots such as Doppler Bot and GitHub bot. This can help in monitoring automated processes and ensure they are functioning as expected.
 
-```sql
+```sql+postgres
+select
+  id,
+  text,
+  created_at,
+  user_name,
+  workplace_name
+from
+  doppler_activity_log
+where
+  user_name like '%Bot%';
+```
+
+```sql+sqlite
 select
   id,
   text,
@@ -64,7 +103,20 @@ where
 ### Get the most recent action
 Explore the latest activity in your Doppler environment by identifying the most recent action taken, providing insights into the user's actions and the timing of those actions. This is particularly useful for auditing and tracking changes made in your environment.
 
-```sql
+```sql+postgres
+select
+  id,
+  text,
+  created_at,
+  environment,
+  user_email
+from
+  doppler_activity_log
+order by
+  created_at desc limit 1;
+```
+
+```sql+sqlite
 select
   id,
   text,
@@ -80,7 +132,7 @@ order by
 ### List most common actors
 Uncover the details of the most active users across different projects by analyzing the frequency of their activities. This can help in identifying key contributors and understanding user engagement within each project.
 
-```sql
+```sql+postgres
 select
   project,
   user_name,
@@ -96,10 +148,37 @@ order by
   count desc;
 ```
 
+```sql+sqlite
+select
+  project,
+  user_name,
+  user_email,
+  count(*)
+from
+  doppler_activity_log
+group by
+  project,
+  user_name,
+  user_email
+order by
+  count(*) desc;
+```
+
 ### List out the most common activities
 Analyze the settings to understand the most frequent activities recorded. This can be beneficial in identifying trends or patterns in system use, aiding in operational efficiency and proactive issue resolution.
 
-```sql
+```sql+postgres
+select
+  id,
+  text,
+  created_at
+from
+  doppler_activity_log
+order by
+  created_at desc;
+```
+
+```sql+sqlite
 select
   id,
   text,

@@ -16,7 +16,20 @@ The `doppler_user` table provides insights into user accounts within Doppler. As
 ### Basic info
 Explore which users have access to your Doppler workspace, including when they were created and their associated email and username. This can help you manage user access and understand who has permissions within your workspace.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  email,
+  username,
+  created_at,
+  access,
+  workplace_name
+from
+  doppler_user;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -32,7 +45,7 @@ from
 ### List users that are created in the last 30 days
 Explore which users have been added to your system in the past month. This can help you keep track of your growing user base and understand recent changes in your user demographics.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -47,10 +60,40 @@ where
   created_at >= now() - interval '30 day';
 ```
 
+```sql+sqlite
+select
+  id,
+  name,
+  email,
+  username,
+  created_at,
+  access,
+  workplace_name
+from
+  doppler_user
+where
+  created_at >= datetime('now', '-30 day');
+```
+
 ### List users with owner access
 Discover the users who have owner access, which is crucial for understanding the distribution of administrative privileges in your workplace. This can be particularly useful in audits or when reevaluating permission structures.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  email,
+  username,
+  created_at,
+  access,
+  workplace_name
+from
+  doppler_user
+where
+  access = 'owner';
+```
+
+```sql+sqlite
 select
   id,
   name,
