@@ -93,7 +93,4 @@ Alternatively, you can also use the standard Doppler environment variables to ob
 export DOPPLER_TOKEN=dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih
 export DOPPLER_PROJECT_ID=plugin-test-project
 ```
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-doppler
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
