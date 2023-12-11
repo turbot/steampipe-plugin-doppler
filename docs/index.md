@@ -8,6 +8,7 @@ short_name: "doppler"
 description: "Steampipe plugin to query projects, environments, secrets and more from Doppler."
 og_description: "Query Doppler with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/doppler-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Doppler + Steampipe
