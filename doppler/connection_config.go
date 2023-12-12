@@ -5,21 +5,11 @@ import (
 	"os"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
 
 type dopplerConfig struct {
-	Token *string `cty:"token"`
-	ProjectId    *string `cty:"project_id"`
-}
-
-var ConfigSchema = map[string]*schema.Attribute{
-	"token": {
-		Type: schema.TypeString,
-	},
-	"project_id": {
-		Type: schema.TypeString,
-	},
+	Token     *string `hcl:"token"`
+	ProjectId *string `hcl:"project_id"`
 }
 
 func ConfigInstance() interface{} {
