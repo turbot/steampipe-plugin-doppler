@@ -15,7 +15,7 @@ engines: ["steampipe", "sqlite", "postgres", "export"]
 
 [Doppler](https://www.doppler.com/) is a cloud-native secrets management platform that securely centralizes and automates the management of sensitive data across teams and applications.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your Doppler secrets:
 
