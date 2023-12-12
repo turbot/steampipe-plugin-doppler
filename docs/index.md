@@ -8,13 +8,14 @@ short_name: "doppler"
 description: "Steampipe plugin to query projects, environments, secrets and more from Doppler."
 og_description: "Query Doppler with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/doppler-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Doppler + Steampipe
 
 [Doppler](https://www.doppler.com/) is a cloud-native secrets management platform that securely centralizes and automates the management of sensitive data across teams and applications.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your Doppler secrets:
 
@@ -92,7 +93,4 @@ Alternatively, you can also use the standard Doppler environment variables to ob
 export DOPPLER_TOKEN=dp.pt.abcdVDI7jCoV92ylJS9yXYZO5CZRiGm0WWWnZgsZZih
 export DOPPLER_PROJECT_ID=plugin-test-project
 ```
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-doppler
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
