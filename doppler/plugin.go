@@ -13,6 +13,12 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
 		},
+		ConnectionKeyColumns: []plugin.ConnectionKeyColumn{
+			{
+				Name:    "workplace_id",
+				Hydrate: getWorkspaceIdForConnection,
+			},
+		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		TableMap: map[string]*plugin.Table{
 			"doppler_activity_log":  tableDopplerActivityLog(ctx),

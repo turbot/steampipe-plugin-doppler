@@ -124,3 +124,17 @@ func getProjectDataUncached(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	return response, nil
 }
+
+func getWorkspaceIdForConnection(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	var workplaceData *doppler.Workplace
+
+	workplace, err := getWorkplace(ctx, d, h)
+	if err != nil {
+		plugin.Logger(ctx).Error("getWorkspaceIdForConnection", "connection_name", d.Connection.Name, "error", err)
+		return nil, err
+	}
+
+	workplaceData = workplace.(*doppler.Workplace)
+
+	return workplaceData.ID, nil
+}
