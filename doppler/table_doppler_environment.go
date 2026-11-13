@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/nikoksr/doppler-go"
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 )
 
 //// TABLE DEFINITION
@@ -24,7 +24,7 @@ func tableDopplerEnvironment(ctx context.Context) *plugin.Table {
 		},
 		List: &plugin.ListConfig{
 			// ParentHydrate: listProjects,
-			Hydrate:       listEnvironments,
+			Hydrate: listEnvironments,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "project",

@@ -12,7 +12,7 @@ import (
 	"github.com/nikoksr/doppler-go/secret"
 	servicetoken "github.com/nikoksr/doppler-go/service_token"
 	"github.com/nikoksr/doppler-go/workplace"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 // Project Client
